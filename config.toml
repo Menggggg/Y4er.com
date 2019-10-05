@@ -41,7 +41,7 @@ googleAnalytics = "UA-131218098-1"      # UA-XXXXXXXX-X
 
   [params.social]
     GitHub = "http://github.com/Y4er"
-    Email = "admin@chabug.org"
+    Email = "mailto:admin@chabug.org"
   [params.utterances]       # https://utteranc.es/
     owner = "Y4er"              # Your GitHub ID
     repo = "Y4er.com"               # The repo to store comments
