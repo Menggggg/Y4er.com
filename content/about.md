@@ -66,4 +66,4 @@ Github：  [Y4er](http://github.com/Y4er)
 
 ---
 
-博客部署状态[![Netlify Status](https://api.netlify.com/api/v1/badges/03639b38-c572-4d0e-86ce-986b3cec995e/deploy-status)](https://app.netlify.com/sites/y4er/deploys)
+博客部署状态[![Netlify Status](https://api.netlify.com/api/v1/badges/63ca25df-b97f-42f0-b0a9-eaa4f8161b49/deploy-status)](https://app.netlify.com/sites/serene-austin-2719b7/deploys)
