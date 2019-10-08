@@ -4,7 +4,7 @@ date: 2019-08-21T22:28:44+08:00
 lastmod: 2019-08-21T22:28:44+08:00
 draft: false
 tags: ['code']
-categories: ['code']
+categories: ['代码审计']
 comment: true
 ---
 又看到了cnvd中的一个有趣的洞！

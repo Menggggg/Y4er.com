@@ -4,7 +4,7 @@ date: 2019-08-22T13:58:08+08:00
 lastmod: 2019-08-22T13:58:08+08:00
 draft: false
 tags: ['code','反序列化']
-categories: ['code']
+categories: ['代码审计']
 comment: true
 ---
 

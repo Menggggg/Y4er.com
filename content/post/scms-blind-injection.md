@@ -4,7 +4,7 @@ date: 2019-07-16T13:02:33+08:00
 lastmod: 2019-07-16T13:02:33+08:00
 draft: false
 tags: ['代码审计']
-categories: ['code']
+categories: ['代码审计']
 comment: true
 ---
 scms企业建站系统存在盲注

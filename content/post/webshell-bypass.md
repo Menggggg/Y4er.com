@@ -4,7 +4,7 @@ date: 2019-08-12T21:10:02+08:00
 lastmod: 2019-08-12T21:57:02+08:00
 draft: false
 tags: ['bypass']
-categories: ['code']
+categories: ['渗透测试']
 comment: true
 ---
 

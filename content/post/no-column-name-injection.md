@@ -4,7 +4,7 @@ date: 2019-08-22T20:41:24+08:00
 lastmod: 2019-08-22T20:41:24+08:00
 draft: false
 tags: ['ctf']
-categories: ['ctf']
+categories: ['CTF笔记']
 comment: true
 ---
 

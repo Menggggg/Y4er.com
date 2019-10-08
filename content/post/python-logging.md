@@ -3,7 +3,7 @@ title: "Python模块学习之Logging日志模块"
 date: 2019-01-13T12:17:40+08:00
 lastmod: 2019-01-13T12:17:40+08:00
 tags: ['python','logging']
-categories: ['code']
+categories: ['代码片段']
 comment: true
 ---
 

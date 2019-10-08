@@ -2,7 +2,7 @@
 title: "MySQL 注入学习"
 date: 2019-04-30T16:05:52+08:00
 tags: ['MySQL','injection']
-categories: ['MySQL','injection']
+categories: ['渗透测试']
 comment: true
 ---
 

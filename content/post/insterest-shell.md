@@ -4,7 +4,7 @@ date: 2019-06-30T13:29:56+08:00
 lastmod: 2019-06-30T13:29:56+08:00
 draft: false
 tags: ['php','shell']
-categories: ['code']
+categories: ['代码审计']
 comment: true
 ---
 在iscc线下赛awd中遇到了一个shell，挺有意思，记录一下。

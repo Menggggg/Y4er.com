@@ -3,8 +3,8 @@ title: "Seacmsv7.2任意文件删除&Getshell"
 date: 2019-01-10T21:17:21+08:00
 lastmod: 2019-01-10T21:17:21+08:00
 draft: false
-tags: ['filedel','getshell']
-categories: ['Vulnerability']
+tags: ['getshell']
+categories: ['代码审计']
 comment: true
 ---
 

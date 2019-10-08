@@ -4,7 +4,7 @@ date: 2019-05-21T22:19:55+08:00
 lastmod: 2019-05-21T22:19:55+08:00
 draft: false
 tags: ['mssql','shell']
-categories: ['MSSQL']
+categories: ['渗透测试']
 comment: true
 ---
 

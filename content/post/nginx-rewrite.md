@@ -4,7 +4,7 @@ date: 2019-07-07T18:27:56+08:00
 lastmod: 2019-07-07T18:27:56+08:00
 draft: false
 tags: ['nginx']
-categories: ['note']
+categories: ['中间件']
 comment: true
 ---
 总结下nginx的重写规则用法。

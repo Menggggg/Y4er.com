@@ -4,7 +4,7 @@ date: 2019-09-28T22:11:39+08:00
 lastmod: 2019-09-28T22:11:39+08:00
 draft: false
 tags: ['code']
-categories: ['code']
+categories: ['代码审计']
 comment: true
 ---
 
@@ -190,5 +190,8 @@ if (stristr($filename, '.php')) {
 # 总结
 
 metinfo7.0的注入实际上还有很多，不过很多都是delete型的注入，我在这里挑了两个回显的注入，欢迎师傅们补充交流。
+
+CVE-2019-16997
+CVE-2019-16996
 
 **文笔垃圾，措辞轻浮，内容浅显，操作生疏。不足之处欢迎大师傅们指点和纠正，感激不尽。**

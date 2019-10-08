@@ -4,7 +4,7 @@ date: 2019-06-18T08:48:13+08:00
 lastmod: 2019-06-18T08:48:13+08:00
 draft: false
 tags: ['awd','note']
-categories: ['note']
+categories: ['CTF笔记']
 comment: true
 ---
 

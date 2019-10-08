@@ -4,7 +4,7 @@ date: 2019-04-03T13:18:55+08:00
 lastmod: 2019-04-03T13:18:55+08:00
 draft: false
 tags: ['php','sql','vip']
-categories: ['code','pentest']
+categories: ['代码审计','渗透测试']
 comment: true
 ---
 

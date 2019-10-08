@@ -1,7 +1,7 @@
 ---
 title: "Scms企建v3二次注入任意文件下载"
 date: 2018-12-18T21:23:03+08:00
-categories: ['Vulnerability']
+categories: ['代码审计']
 tags: ['sql']
 ---
 

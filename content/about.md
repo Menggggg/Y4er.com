@@ -1,10 +1,11 @@
 ---
 title: "一个菜鸡的简介"
 date: 2018-12-16T12:11:25+08:00
+comment: false
 ---
-<center>
 
-![](https://y4er.com/img/uploads/20190430191344.png)
+<center>
+![](https://avatars1.githubusercontent.com/u/40487319?s=460&v=4)
 
 ID：`Y4er`
 
@@ -63,6 +64,10 @@ Github：  [Y4er](http://github.com/Y4er)
 2018、2019年VR虚拟现实设计制作高职组省赛二等奖 unity3d+C#
 
 2019年第四届河南省高校信息安全大赛ISCC线下赛一等奖
+
+CVE-2019-16997
+
+CVE-2019-16996
 
 ---
 

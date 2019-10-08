@@ -4,7 +4,7 @@ date: 2019-07-11T20:48:12+08:00
 lastmod: 2019-07-11T20:48:12+08:00
 draft: false
 tags: ['exec','code']
-categories: ['code']
+categories: ['代码审计']
 comment: true
 ---
 昨天晚上Discuz Ml爆出了漏洞，今天来分析一波。

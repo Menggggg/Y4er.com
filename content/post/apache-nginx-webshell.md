@@ -5,7 +5,7 @@ date: 2019-01-25T21:20:47+08:00
 lastmod: 2019-01-25T21:20:47+08:00
 draft: false
 tags: ['apache','nginx','shell','bypass']
-categories: ['code']
+categories: ['渗透测试']
 comment: true
 ---
 

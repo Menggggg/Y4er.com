@@ -2,7 +2,7 @@
 title: "指点天下Python签到脚本"
 date: 2018-12-23T22:44:13+08:00
 categories: ['code']
-tags: ['python']
+tags: ['代码片段']
 ---
 
 学校每天晚上让用一个垃圾app签到就寝，没办法，写了个脚本来解放双手。

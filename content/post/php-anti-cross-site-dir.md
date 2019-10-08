@@ -4,7 +4,7 @@ date: 2019-03-29T15:53:11+08:00
 lastmod: 2019-03-29T15:53:11+08:00
 draft: false
 tags: ['php']
-categories: ['pentest']
+categories: ['渗透测试']
 comment: true
 ---
 昨天晚上一位朋友问到这个东西，就顺手查了下资料，这是笔记。

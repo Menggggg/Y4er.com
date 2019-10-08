@@ -4,7 +4,7 @@ date: 2019-05-09T17:34:21+08:00
 lastmod: 2019-05-09T17:34:21+08:00
 draft: false
 tags: ['图床','python']
-categories: ['code']
+categories: ['代码片段']
 comment: true
 ---
 

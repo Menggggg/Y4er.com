@@ -4,7 +4,7 @@ date: 2019-09-01T17:35:59+08:00
 lastmod: 2019-09-01T17:35:59+08:00
 draft: false
 tags: ['backdoor']
-categories: ['pentest']
+categories: ['渗透测试']
 comment: true
 ---
 在先知看到了apache利用lua留后门，就想着用nginx也试试

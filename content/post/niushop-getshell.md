@@ -1,8 +1,8 @@
 ---
 title: "Niushop最新版 Getshell"
 date: 2019-01-07T15:37:37+08:00
-categories: ['Vulnerability']
-tags: ['getshell','php','Vulnerability']
+categories: ['代码审计']
+tags: ['getshell','php']
 ---
 Niushop开源商城采用thinkphp5.0+MySQL开发语言开发,完全开源商城系统,可以用于企业,个人建立自己的网上免费商城,支持开源微信商城,开源小程序,开源新零售。
 <!--more-->

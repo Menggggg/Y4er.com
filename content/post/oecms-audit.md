@@ -4,7 +4,7 @@ date: 2019-04-15T13:06:38+08:00
 lastmod: 2019-04-15T13:06:38+08:00
 draft: false
 tags: ['audit']
-categories: [code]
+categories: ['代码审计']
 comment: true
 ---
 

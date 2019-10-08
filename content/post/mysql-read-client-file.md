@@ -4,7 +4,7 @@ date: 2019-05-23T20:31:28+08:00
 lastmod: 2019-05-23T20:31:28+08:00
 draft: false
 tags: ['mysql']
-categories: ['pentest']
+categories: ['渗透测试']
 comment: true
 ---
 

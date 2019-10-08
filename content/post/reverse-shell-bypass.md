@@ -4,7 +4,7 @@ date: 2019-07-19T09:24:46+08:00
 lastmod: 2019-07-19T09:24:46+08:00
 draft: false
 tags: ['shell']
-categories: ['pentest']
+categories: ['渗透测试']
 comment: true
 ---
 

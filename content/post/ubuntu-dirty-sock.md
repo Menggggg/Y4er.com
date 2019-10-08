@@ -3,8 +3,8 @@ title: "Ubuntu Dirty Sock 本地权限提升"
 date: 2019-02-16T14:55:14+08:00
 lastmod: 2019-02-16T14:55:14+08:00
 draft: false
-categories: ['Vulnerability']
-tags: ['Vulnerability','CVE','ubuntu']
+categories: ['漏洞复现']
+tags: ['CVE','ubuntu']
 comment: true
 ---
 

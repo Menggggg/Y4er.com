@@ -1,7 +1,7 @@
 ---
 title: "Typora Remote Command Execution"
 date: 2018-12-20T08:30:03+08:00
-categories: ['Vulnerability']
+categories: ['漏洞复现']
 tags: ['remote','command','typora']
 ---
 

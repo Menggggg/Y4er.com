@@ -1,8 +1,8 @@
 ---
 title: "Phpcms2008 Type.php Getshell"
 date: 2018-12-16T19:21:52+08:00
-categories: ['Vulnerability']
-tags: ['getshell','php','Vulnerability']
+categories: ['代码审计']
+tags: ['getshell','php']
 ---
 
 phpcms2008老版本`type.php`存在代码注入可直接getshell。不过版本过低，使用人数较少，影响范围较小，当作拓展思路不错。

@@ -1,8 +1,8 @@
 ---
 title: "Phpmyadmin4.8.0~4.8.3任意文件包含"
 date: 2018-12-20T08:34:43+08:00
-categories: ['Vulnerability']
-tags: ['Vulnerability','phpmyadmin','include']
+categories: ['代码审计']
+tags: ['phpmyadmin','include']
 ---
 
 2018年12月7日，phpmyadmin官方发布[公告](https://www.phpmyadmin.net/security/PMASA-2018-6/)修复了一个由`Transformation`特性引起的任意文件包含漏洞。<!--more-->

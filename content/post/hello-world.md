@@ -1,7 +1,7 @@
 ---
 title: "Hello World"
 date: 2018-12-08T12:32:42+08:00
-categories: ['Others','hugo']
+categories: ['瞎折腾']
 tags: ['hugo']
 ---
 

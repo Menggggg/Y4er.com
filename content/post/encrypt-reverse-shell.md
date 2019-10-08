@@ -4,7 +4,7 @@ date: 2019-08-26T12:55:07+08:00
 lastmod: 2019-08-26T12:55:07+08:00
 draft: false
 tags: ['reverse','shell']
-categories: ['pentest']
+categories: ['渗透测试']
 comment: true
 ---
 利用openssl加密你的shell

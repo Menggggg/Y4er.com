@@ -4,7 +4,7 @@ date: 2019-07-02T14:56:03+08:00
 lastmod: 2019-07-02T14:56:03+08:00
 draft: false
 tags: ['app','reverse']
-categories: ['note']
+categories: ['逆向']
 comment: true
 ---
 
