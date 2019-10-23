@@ -2,7 +2,7 @@
 title: "Bypass MySQL Safedog"
 date: 2019-10-10T21:58:09+08:00
 lastmod: 2019-10-10T21:58:09+08:00
-draft: true
+draft: false
 tags: []
 categories: ['bypass']
 comment: true

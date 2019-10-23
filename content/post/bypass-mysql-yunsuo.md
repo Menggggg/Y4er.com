@@ -2,7 +2,7 @@
 title: "Bypass MySQL Yunsuo"
 date: 2019-10-12T22:46:46+08:00
 lastmod: 2019-10-12T22:46:46+08:00
-draft: true
+draft: false
 tags: []
 categories: ['bypass']
 comment: true

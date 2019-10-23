@@ -21,11 +21,11 @@ comment: true
 
 # python自己造轮子
 
-国光师傅写过一篇[Python 编写一个免费简单的图床上传工具二](https://www.sqlsec.com/2018/06/img.html)，但是编写思路是采用`xclip`来操作`ubuntu`下的剪切板，而苦逼windows党不配这样操作。随卒。
+国光师傅写过一篇 [Python 编写一个免费简单的图床上传工具二](https://www.sqlsec.com/2018/06/img.html) ，但是编写思路是采用`xclip`来操作`ubuntu`下的剪切板，而苦逼windows党不配这样操作。随卒。
 
 # 参考PicGo自己撸
 
-研究到这一步，实际上最关键的问题在于win下怎么去导出剪切板中的图片。百度谷歌了很多文章，发现都是牛头不照马尾，在此过程中我把PicGo作者的博客翻烂了，发现PicGo作者获取剪切板的图片采用的是命令行调用 https://github.com/PicGo/PicGo-Core/blob/dev/src/utils/clipboard/windows10.ps1 这个脚本。在第一行定义了最关键的项目https://github.com/octan3/img-clipboard-dump。这个就是我们想要的东西！
+研究到这一步，实际上最关键的问题在于win下怎么去导出剪切板中的图片。百度谷歌了很多文章，发现都是牛头不照马尾，在此过程中我把PicGo作者的博客翻烂了，发现PicGo作者获取剪切板的图片采用的是命令行调用 https://github.com/PicGo/PicGo-Core/blob/dev/src/utils/clipboard/windows10.ps1 这个脚本。在第一行定义了最关键的项目 https://github.com/octan3/img-clipboard-dump 。这个就是我们想要的东西！
 
 那么我们的问题就解决了！
 
