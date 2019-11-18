@@ -2,7 +2,7 @@
 title: "MSSQL使用CLR程序集来执行命令"
 date: 2019-10-23T21:26:20+08:00
 lastmod: 2019-10-23T21:26:20+08:00
-draft: true
+draft: false
 tags: []
 categories: ['渗透测试']
 comment: true
