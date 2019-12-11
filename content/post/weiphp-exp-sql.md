@@ -3,12 +3,10 @@ title: "Weiphp exp表达式注入"
 date: 2019-12-11T10:06:42+08:00
 lastmod: 2019-12-11T10:06:42+08:00
 draft: true
-tags: []
+tags: ['php']
 categories: ['代码审计']
 comment: true
 ---
-
-
 
 和thinkphp3.2.3的exp注入类似。
 
