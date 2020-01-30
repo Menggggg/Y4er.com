@@ -1,0 +1,29 @@
+[[main]]
+  identifier = "archive"
+  name = "归档"
+  url = "archive"
+  weight = 1
+
+[[main]]
+  identifier = "post"
+  name = "文章"
+  url = "post"
+  weight = 2
+
+[[main]]
+  identifier = "about"
+  name = "关于"
+  url = "about"
+  weight = 3
+
+[[main]]
+  identifier = "words"
+  name = "Words"
+  url = "words"
+  weight = 4
+
+[[main]]
+  identifier = "ChaBug"
+  name = "ChaBug"
+  url = "http://www.chabug.org/"
+  weight = 5

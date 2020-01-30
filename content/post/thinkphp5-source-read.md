@@ -1,18 +1,18 @@
 ---
 title: "Thinkphp 源码阅读"
 date: 2019-11-27T21:55:25+08:00
-lastmod: 2019-11-27T21:55:25+08:00
 draft: false
 tags: ['thinkphp','代码审计']
 categories: ['代码审计']
-comment: true
+series:
+- ThinkPHP
 ---
 
  看明白thinkphp5框架是怎么实现的 
 
 <!--more-->
 
-# 环境
+## 环境
 thinkphp5.0.24
 ```php
 "require": {
@@ -20,7 +20,7 @@ thinkphp5.0.24
     "topthink/framework": "5.0.*"
 },
 ```
-# 目录结构
+## 目录结构
 ```
 thinkphp/                     根目录
     /application              应用目录 
@@ -56,7 +56,7 @@ thinkphp/                     根目录
         start.php             框架引导入口
         think.php             框架引导文件
 ```
-# 框架引导start.php
+## 框架引导start.php
 thinkphp为单程序入口，这是mvc框架的特征，程序的入口在public目录下的index.php
 ```php
 // 定义应用目录
@@ -163,10 +163,10 @@ public static function register()
 // 2. 执行应用
 App::run()->send();
 ```
-## 小结
+### 小结
 thinkphp通过`start.php`引入的`base.php`定义文件夹等系统常量，然后引入`Loader`来加载任意类，通过自动加载使用`Error`类注册错误处理，以及`Config`类加载模式配置文件`thinkphp/convention.php`。做好一系列准备工作之后，执行应用 `App::run()->send()`
 
-# 应用启动App::run()
+## 应用启动App::run()
 在上文加载完配置等一系列工作之后，进入`App::run()`，在`run()`方法中
 首先拿到`Request`的一个实例，然后调用`$config = self::initCommon()`初始化公共配置
 
@@ -304,11 +304,11 @@ private static function init($module = '')
 $request->filter($config['default_filter'])
 ```
 设置当前的过滤规则，然后加载语言，监听`app_dispatch`应用调度，获取应用调度信息，如果应用调度信息`$dispatch`为空，则进行`路由check` `$dispatch = self::routeCheck($request, $config)`，路由check太多了，我拿出来写，然后记录当前调度信息`$request->dispatch($dispatch)`，根据debug写日志，最后检查缓存之后执行了`exec`函数拿到`$data`作为`response`的值，返回`response`，而`exec()`才是真正的应用调度函数，会根据`$dispatch`的值来进入不同的调度模式，也单独拿出来说，至此App.php中就走完了，然后经过`thinkphp/start.php`的`send()`发送到客户端。
-## 小结
+### 小结
 `App::run()`是thinkphp程序的主要核心，在其中进行了初始化应用配置-->模块/控制器绑定-->加载语言包-->路由检查-->DEBUG记录-->exec()应用调度-->输出客户端，简单画了一个流程图
 ![image](https://y4er.com/img/uploads/20191127226243.jpg)
 
-# 路由检查self::routeCheck()
+## 路由检查self::routeCheck()
 上文中我们说过，在未设置调度信息会进行URL路由检测
 ```php
 if (empty($dispatch)) {
@@ -473,11 +473,11 @@ http://php.local/public/index.php?s=index/index/index/id/1
 ![image](https://y4er.com/img/uploads/20191127226106.jpg)
 那么`routeCheck()`返回的`$result`会作为`thinkphp/library/think/App.php:116`的`$dispatch`的值，进入到`exec()`的应用调度中。
 
-## 小结
+### 小结
 又臭又长的文字不如一张图
 ![image](https://y4er.com/img/uploads/20191127221167.jpg)
 
-# 应用调度App::exec()
+## 应用调度App::exec()
 我们上文提到了`routeCheck()`返回的`$dispatch`会进入到`exec()`函数中
 ```php
 protected static function exec($dispatch, $config)
@@ -601,10 +601,10 @@ private static function bindParams($reflect, $vars = [])
 ```
 `args`会从`Request::instance()->route()`或者`Request::instance()->param();`获取，也就是request中获取。这样就实现了从url中达到动态调用`模块/控制器/操作`的目的。
 
-## 小结
+### 小结
 应用调度就是这样完成他的使命，一个switch语句判断`$dispatch['type']`，然后进入不同的处理，如果实现业务逻辑则会通过反射类调用相应的`模块/控制器/操作`函数，拿到操作返回的数据之后整个exec()函数就结束了。最终继续执行App::run()方法返回response对象，进入send()方法返回给客户端，整个流程结束。
 
-# 请求处理Request类
+## 请求处理Request类
 请求类处于`thinkphp/library/think/Request.php`，众所周知的是thinkphp有[助手函数input()](https://www.kancloud.cn/manual/thinkphp5/144731)来获取请求参数，本节说一下thinkphp中具体怎么实现的。
 
 我们先来给一个控制器来做演示
@@ -881,10 +881,10 @@ public function get($name = '', $default = null, $filter = '')
 }
 ```
 比如`get()`会合并`$_GET`数组中的参数然后传入`input()`。
-## 小结
+### 小结
 Request类是一个获取请求类，thinkphp将多种请求的全局数组封装了一下，变为自己的函数，并且进行了过滤和强制类型转换，以此保证参数的安全性。
 
-# 视图渲染View.php
+## 视图渲染View.php
 ```php
 <?php
 
@@ -1045,10 +1045,10 @@ public function read($cacheFile, $vars = [])
 }
 ```
 会将我们的参数进行变量覆盖，然后包含缓存文件，也就是我们的模板文件，在包含的时候缓冲区就写入了渲染完成的模板的内容，而后`$content`获取到的就是渲染的内容，这就是全部流程。
-## 小结
+### 小结
 ![image](https://y4er.com/img/uploads/20191127224186.jpg)
 
-# 总结
+## 总结
 
 thinkphp那么多的代码不是我一篇文章就能说完的，阅读thinkphp的源码你需要对thinkphp的开发流程及php的函数特性有着足够深入的了解，在本文中只是简单介绍了thinkphp的实现过程，有很多东西没有时间和精力去写笔记，比如模板解析、Model层、数据库交互、模板缓存等是怎么实现的，东西是写给自己看的，如果有前辈或者后人看到了这篇文章，请多谅解。
 

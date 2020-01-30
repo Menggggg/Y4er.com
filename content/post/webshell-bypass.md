@@ -1,11 +1,9 @@
 ---
 title: "PHP Webshell Bypass"
 date: 2019-08-12T21:10:02+08:00
-lastmod: 2019-08-12T21:57:02+08:00
 draft: false
 tags: ['bypass']
 categories: ['bypass']
-comment: true
 ---
 
 准备写一个长期更新的免杀webshell总结

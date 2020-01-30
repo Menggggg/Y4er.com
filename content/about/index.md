@@ -1,11 +1,12 @@
 ---
 title: "一个菜鸡的简介"
 date: 2018-12-16T12:11:25+08:00
-comment: false
+enableComment: false
+type: "about"
 ---
 
 <center>
-![](https://avatars1.githubusercontent.com/u/40487319?s=460&v=4)
+{{< img src="/avatar.jpg" width="150px" height="150px">}}
 
 ID：`Y4er`
 
@@ -32,11 +33,11 @@ Github：  [Y4er](http://github.com/Y4er)
 1. 熟悉web常见漏洞及原理
 2. 熟练使用metasploit、burp、sqlmap等常见辅助工具
 3. 能够独立完成中小型网站的渗透测试
-4. 可以使用python、php编写脚本辅助渗透测试
-5. 具有最基本的php代码审计能力[还在学]
+4. 可以使用python、php、go编写脚本辅助渗透测试
+5. 具有PHP、Java代码审计能力[还在学]
 6. 内网 域渗透方向[还在学]
 
-目前专注于php代码审计及实战。
+目前专注于代码审计及实战。
 
 **特别特别想在毕业之后从事安全行业！**
 

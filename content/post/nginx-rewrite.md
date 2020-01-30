@@ -1,11 +1,9 @@
 ---
 title: "Nginx URL Rewrite"
 date: 2019-07-07T18:27:56+08:00
-lastmod: 2019-07-07T18:27:56+08:00
 draft: false
 tags: ['nginx']
 categories: ['中间件']
-comment: true
 ---
 总结下nginx的重写规则用法。
 <!--more-->
@@ -20,7 +18,7 @@ nginx: configuration file /www/server/nginx/conf/nginx.conf test is successful
 但是如果你有多个conf文件，这个命令并不适用。
 
 在宝塔面板中conf是在`/www/server/panel/vhost/nginx`路径下。
-# rewrite
+## rewrite
 ```bash
 server {
     rewrite 规则 定向路径 重写类型;
@@ -75,7 +73,7 @@ server {
 - 访问/last/时重写到/q.html，然后使用新的uri再匹配，正好匹配到locatoin = /q.html然后返回了400
 - 访问/break时重写到/q.html，由于返回了break，则直接停止了
 
-# if判断
+## if判断
 只是上面的简单重写很多时候满足不了需求，比如需要判断当文件不存在时、当路径包含xx时等条件，则需要用到if
 当表达式只是一个变量时，如果值为空或任何以0开头的字符串都会当做false
 直接比较变量和内容时，使用=或!=
@@ -131,7 +129,7 @@ if ($args ~ a=1) {
     rewrite ^ http://example.com/ permanent;
 }
 ```
-# location
+## location
 
 在server块中使用，如：
 ```shell
@@ -167,7 +165,7 @@ server {
     }
 }
 ```
-# 实际应用
+## 实际应用
 在上篇文章中auxpi图床直接访问是本地的图床，而且在后台即使关闭本地图床，也仍然会显示在首页，用户直接上传会报错，那么我们要做的就是让访问的时候跳转到别的图床。
 
 要求

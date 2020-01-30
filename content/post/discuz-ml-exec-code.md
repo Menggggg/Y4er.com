@@ -1,11 +1,9 @@
 ---
 title: "Discuz Ml v3.x 代码执行分析"
 date: 2019-07-11T20:48:12+08:00
-lastmod: 2019-07-11T20:48:12+08:00
 draft: false
 tags: ['exec','code']
 categories: ['代码审计']
-comment: true
 ---
 昨天晚上Discuz Ml爆出了漏洞，今天来分析一波。
 
@@ -33,7 +31,7 @@ comment: true
 
 修改exp为`_language=1.1.1;`使其报错。
 
-- ![20190711210101.png](https://ae01.alicdn.com/kf/UTB8Hrllw__IXKJkSalU761BzVXat.png)
+![20190711210101.png](https://ae01.alicdn.com/kf/UTB8Hrllw__IXKJkSalU761BzVXat.png)
 
 定位到653行
 

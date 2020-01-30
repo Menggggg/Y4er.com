@@ -1,11 +1,9 @@
 ---
 title: "搞了一个图床"
 date: 2019-07-07T17:31:13+08:00
-lastmod: 2019-07-07T17:31:13+08:00
 draft: false
 tags: ['图床']
 categories: ['瞎折腾']
-comment: true
 ---
 
 昨天把chabug弄炸了，然后图片有的也炸了...

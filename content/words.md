@@ -1,6 +1,7 @@
 ---
 title: "碎碎念"
-comment: false
+enableComment: false
+hideToc : true
 ---
 
 

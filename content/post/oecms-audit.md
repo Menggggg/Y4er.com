@@ -1,11 +1,9 @@
 ---
 title: "Oecms v3 Audit"
 date: 2019-04-15T13:06:38+08:00
-lastmod: 2019-04-15T13:06:38+08:00
 draft: false
 tags: ['audit']
 categories: ['代码审计']
-comment: true
 ---
 
 实战中碰到了这个cms，审计一波，记录一下
@@ -14,7 +12,7 @@ comment: true
 
 @ershiyi发我一个网站，让我拿shell，看了下是oecmsv3.0的源码，并且二次开发过。有后台的账号和密码，关键在于怎么getshell，所以sql注入的点我没看。以下是审计结果。
 
-# 后台登陆爆破
+## 后台登陆爆破
 
 `http://go.go/admin/login.php`
 
@@ -41,7 +39,7 @@ if($checkcode != $_SESSION["verifycode"]){
 		}
 ```
 
-# 后台文件遍历
+## 后台文件遍历
 
 `E:\WWW\oecms\admin\oecms_template.php`
 
@@ -69,7 +67,7 @@ function volist(){
 
 ![](https://y4er.com/img/uploads/20190509167792.jpg)
 
-# 编辑模板getshell
+## 编辑模板getshell
 
 `E:\WWW\oecms\admin\oecms_template.php`
 
@@ -113,7 +111,7 @@ payload:`/admin/oecms_template.php?action=edit&urlstrs=tpl/..//case.php%00.tpl`
 
 首先检查了文件是否可用，如果是不存在的文件，则返回`对不起`
 
-# 任意文件删除
+## 任意文件删除
 
 payload
 
@@ -157,7 +155,7 @@ function del(){
 
 没有判断文件路径，导致任意文件删除。
 
-# 后台文件黑名单上传
+## 后台文件黑名单上传
 
 `http://go.go/admin/annexform.php?comeform=myform&inputname=uploadfiles`
 
@@ -165,6 +163,6 @@ function del(){
 
 可根据具体环境截断或者用其他可解析后缀来上传shell，在这里不细说。
 
-# 后话
+## 后话
 
 最后目标站也没拿下来，编辑模板报500，nginx上传截断无果

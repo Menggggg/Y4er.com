@@ -1,26 +1,24 @@
 ---
 title: "zzzphp 远程代码执行审计"
 date: 2019-08-21T22:28:44+08:00
-lastmod: 2019-08-21T22:28:44+08:00
 draft: false
 tags: ['code']
 categories: ['代码审计']
-comment: true
 ---
 又看到了cnvd中的一个有趣的洞！
 <!--more-->
 
-# zzzphp
+## zzzphp
 
 > zzzphp是一款php语言开发的免费建站系统，以简单易上手的标签、安全的系统内核、良好的用户体验为特点，是站长建站的最佳选择。
 
 晚上8点，做完作业发现cnvd报了一个[命令执行](https://www.cnvd.org.cn/flaw/show/CNVD-2019-21998)，本着两天不看代码看不懂的精神赶紧再来看下审计。
 
-# 产生原因
+## 产生原因
 
 zzzphp的模板是通过自写函数来进行解析的，过滤参数不严谨导致可以执行任意php代码。
 
-# 漏洞分析
+## 漏洞分析
 
 程序入口`index.php`引入`require 'inc/zzz_client.php';`
 
@@ -132,7 +130,7 @@ function danger_key( $s , $len=255) {
 
 修改模板 -> 构造恶意if语句块 -> 访问 `http://localhost/search/`触发代码执行
 
-# exp构造
+## exp构造
 
 - 问题一：上文提到了可以用双写绕过，但是关键字会被替换成一个`*`，我们可以重新用str_replace替换回来
 
@@ -148,11 +146,11 @@ function danger_key( $s , $len=255) {
 
 然后访问`http://localhost/search/` 然后会在 `http://localhost/search/Y4er.php`
 
-# 修复建议
+## 修复建议
 
 使用`preg_replace`过滤关键字而不是`str_ireplace()`，严格控制用户输入。
 
-# 写在文后
+## 写在文后
 
 需要登录后台，算是比较鸡肋，不过cnvd还爆了这个版本的注入，有兴趣的师傅可以看一下。
 

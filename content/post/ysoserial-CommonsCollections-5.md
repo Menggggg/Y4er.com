@@ -1,11 +1,9 @@
 ---
 title: "ysoserial CommonsCollections 5 反序列化分析"
 date: 2020-01-19T19:23:13+08:00
-lastmod: 2020-01-19T19:23:13+08:00
 draft: false
 tags: ['java']
 categories: ['代码审计']
-comment: true
 ---
 
 ysoserial 系列
@@ -14,12 +12,12 @@ ysoserial 系列
 
 迷迷糊糊看了一个多月Java，把学校学的javaweb捡了起来，自己又看了看spring，想了想与其审计TOP10的漏洞，还是反序列化最考验审计能力和逻辑思维，干脆一不做二不休把`ysoserial`的反序列化链拿来研究研究，不想写文章，但是又觉得看得懂的东西还是写一写才能记得住。文笔不好，自己明白的东西写出来不一定明了，有问题的直接留言吧。
 
-# 前言
+## 前言
 Apache Commons Collections 的漏洞最早是2015年 [FoxGlove Security](https://foxglovesecurity.com/2015/11/06/what-do-weblogic-websphere-jboss-jenkins-opennms-and-your-application-have-in-common-this-vulnerability/) 安全团队在其博客中发表了一篇长文，全面阐述了此漏洞对各种中间件的影响。
 
 在我的上篇关于 [Java反序列化](https://y4er.com/post/java-deserialization-1/) 的文章中，简单提到了反序列化的入口(readObject)和反射，本文我们根据上文的基础来学习 [ysoserial CommonsCollections5](https://github.com/frohoff/ysoserial/blob/master/src/main/java/ysoserial/payloads/CommonsCollections5.java) 的反序列化流程。
 
-# 搭建环境
+## 搭建环境
 使用idea创建一个maven项目，在pom.xml文件中加入commons-collections依赖。
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -76,7 +74,7 @@ public class CommonsCollections5 {
 
 }
 ```
-# 漏洞复现
+## 漏洞复现
 使用ysoserial生成payload
 ```
 java -jar ysoserial-master-30099844c6-1.jar CommonsCollections5 calc > test.ser
@@ -84,7 +82,7 @@ java -jar ysoserial-master-30099844c6-1.jar CommonsCollections5 calc > test.ser
 ![20200119192547](https://y4er.com/img/uploads/20200119192547.png)
 成功弹出计算器。
 
-# 漏洞分析
+## 漏洞分析
 在 [ysoserial的payload](https://github.com/frohoff/ysoserial/blob/master/src/main/java/ysoserial/payloads/CommonsCollections5.java) 中，我们可以看到问题出在 org.apache.commons.collections.functors.InvokerTransformer，在这个类中实现了Serializable接口，并且有一个transform方法。
 ```java
 public Object transform(Object input) {
@@ -299,7 +297,7 @@ field.set(badAttributeValueExpException, entry);
 ```
 ![20200119192839](https://y4er.com/img/uploads/20200119192839.png)
 
-# 总结
+## 总结
 这里抄一下ysoserial的 `Gadget chain`
 ```java
 /*

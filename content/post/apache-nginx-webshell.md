@@ -2,11 +2,9 @@
 
 title: "PHP利用Apache、Nginx的特性实现免杀Webshell"
 date: 2019-01-25T21:20:47+08:00
-lastmod: 2019-01-25T21:20:47+08:00
 draft: false
 tags: ['apache','nginx','shell','bypass']
 categories: ['bypass']
-comment: true
 ---
 
 `get_defined_vars()`、`getallheaders()`是两个特性函数，我们可以通过这两个函数来构造我们的webshell。

@@ -1,20 +1,18 @@
 ---
 title: "Java下多种执行命令的姿势及问题"
 date: 2020-01-30T15:59:40+08:00
-lastmod: 2020-01-30T15:59:40+08:00
 draft: false
 tags: ['Java']
 categories: ['代码审计']
-comment: true
 ---
 
 Java中执行命令有很多姿势，但是有时候带有`|`,`<`,`>`等符号的命令没办法正常执行。为什么呢？
 
 <!--more-->
 
-# 命令执行
+## 命令执行
 要想了解为什么，我们首先需要知道Java中有哪些方式可以执行命令。
-## Runtime
+### Runtime
 ```java
 package exec;
 
@@ -37,7 +35,7 @@ public class RuntimeExec {
 ```
 ![20200130160246](https://y4er.com/img/uploads/20200130160246.png)
 
-## ProcessBuilder
+### ProcessBuilder
 ```java
 package exec;
 
@@ -62,7 +60,7 @@ public class ProcessExec {
 }
 ```
 ![20200130160321](https://y4er.com/img/uploads/20200130160321.png)
-## ProcessImpl
+### ProcessImpl
 ProcessImpl是更为底层的实现，Runtime和ProcessBuilder执行命令实际上也是调用了ProcessImpl这个类，对于ProcessImpl类我们不能直接调用，但是可以通过反射来间接调用ProcessImpl来达到执行命令的目的。
 ```java
 package exec;
@@ -91,9 +89,9 @@ public class ProcessImplExec {
 ```
 ![20200130160338](https://y4er.com/img/uploads/20200130160338.png)
 
-# 问题
+## 问题
 了解了Java中的几种执行命令的函数，我们来看下有什么问题。
-## Windows
+### Windows
 在windows中，命令前缀要加`cmd /c`
 ```java
 package exec;
@@ -176,7 +174,7 @@ public Process exec(String[] cmdarray, String[] envp, File dir)
 ![20200130160548](https://y4er.com/img/uploads/20200130160548.png)
 也就是说Runtime和ProcessBuilder的底层实际上都是ProcessImpl。而不能执行echo命令的原因是因为java找不到这个东西，也就是没有环境变量。所以加上`cmd /c`就行了。
 
-## Linux
+### Linux
 在谈Linux下的问题时，我们首先要知道一个点
 ![20200130160612](https://y4er.com/img/uploads/20200130160612.png)
 
@@ -228,7 +226,7 @@ public class RuntimeExec {
     }
 }
 ```
-## better？
+### better？
 有没有更好的办法？有的！Linux下可以用bash的base64编码，Windows下用powershell的base64编码。
 
 **文笔垃圾，措辞轻浮，内容浅显，操作生疏。不足之处欢迎大师傅们指点和纠正，感激不尽。**

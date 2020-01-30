@@ -1,27 +1,25 @@
 ---
 title: "Laravel v5.8.x Pop Chain"
 date: 2019-08-22T13:58:08+08:00
-lastmod: 2019-08-22T13:58:08+08:00
 draft: false
 tags: ['code','反序列化']
 categories: ['代码审计']
-comment: true
 ---
 
 在@mochazz师傅的博客里看到了Laravel的反序列化pop链，记录一下。
 
 <!--more-->
 
-# 环境准备
+## 环境准备
 
 1. phpstudy
 2. php7.2.10 
 3. phpstorm
 4. composer
 
-# 搭建环境
+## 搭建环境
 
-## 配置composer
+### 配置composer
 
 [下载composer.phar](https://mirrors.aliyun.com/composer/composer.phar) 放到php的目录下面，给php配置好环境变量。
 
@@ -44,7 +42,7 @@ Composer version 1.9.0 2019-08-02 20:55:32
 composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 ```
 
-## 配置项目
+### 配置项目
 
 创建laravel项目，注意选择版本
 
@@ -92,7 +90,7 @@ class DemoController extends Controller
 }
 ```
 
-# pop链分析
+## pop链分析
 
 首先我们要知道 laravel 在反序列化`unserialize($code)`时，如果反序列化对象的类不存在，会尝试去自动加载这个类。
 
@@ -179,7 +177,7 @@ public function getCode()
 
 `getCode()`依然可控，这个pop链就结束了。
 
-# 构造exp
+## 构造exp
 
 ```php
 <?php
@@ -266,7 +264,7 @@ namespace {
 ?>
 ```
 
-# 参考链接
+## 参考链接
 
 1. [Laravel5.8.x反序列化链](https://mochazz.github.io/2019/08/05/Laravel5.8.x反序列化链/#POP链1)
 2. [Laravel mockery组件反序列化POP链分析](https://xz.aliyun.com/t/5866)

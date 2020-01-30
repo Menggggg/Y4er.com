@@ -1,11 +1,11 @@
 ---
 title: "Thinkphp错误使用Upload类导致getshell"
 date: 2019-10-23T20:58:17+08:00
-lastmod: 2019-10-23T20:58:17+08:00
 draft: false
 tags: []
 categories: ['代码审计']
-comment: true
+series:
+- ThinkPHP
 ---
 
 对tp的错误使用导致的。

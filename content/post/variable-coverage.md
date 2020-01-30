@@ -1,18 +1,16 @@
 ---
 title: "PHP变量覆盖总结"
 date: 2019-05-09T13:09:07+08:00
-lastmod: 2019-05-09T13:09:07+08:00
 draft: false
 tags: ['ctf','php']
 categories: ['代码审计']
-comment: true
 ---
 
 最近做ctf遇到了很多次变量覆盖的问题，总结一下
 
 <!--more-->
 
-# register_global
+## register_global
 
 全局变量注册，本特性已自 PHP 5.3.0 起**废弃**并将自 PHP 5.4.0 起**移除**。
 
@@ -33,7 +31,7 @@ if ($auth) {
 当访问`http://127.0.0.1/1.php`时输出`没有覆盖`
 
 但是当请求`http://127.0.0.1/1.php?auth=1`时会覆盖掉`$auth`输出`覆盖`。
-# extract()
+## extract()
 从数组中将变量导入到当前的符号表
 直接看代码
 ```php
@@ -46,7 +44,7 @@ if ($auth){
 }
 ```
 同样请求`http://127.0.0.1/1.php?auth=1`时会覆盖掉`$auth`输出`over`。
-# `$$`
+## `$$`
 `$$`符号在php中叫做`可变变量`，可以使变量名动态设置。举个例子
 
 ```php
@@ -69,7 +67,7 @@ echo $auth;
 在第二行中遍历了全局变量`$_GET`，第三行将key当作变量名，把value赋值。
 那么我们传入`http://127.0.0.1/1.php?auth=1`时会将`$auth`的值覆盖为1
 
-# import_request_variables
+## import_request_variables
 将 GET／POST／Cookie 变量导入到全局作用域中，如果你禁止了 register_globals，但又想用到一些全局变量，那么此函数就很有用。那么和register_globals存在相同的变量覆盖问题。
 ```php
 $auth = '0';
@@ -80,7 +78,7 @@ if($auth == 1){
 }
 ```
 同样传入`http://127.0.0.1/1.php?auth=1`时会将`$auth`的值覆盖为1，输出`over!`
-# parse_str()
+## parse_str()
 将字符串解析成多个变量
 ```php
 $a='aa';
@@ -136,5 +134,5 @@ http://39.100.83.188:8066/?query=&hashed_key=ca978112ca1bbdcafac231b39a23dc4da78
 
 拿到flag
 
-# 总结
+## 总结
 代码审计中变量覆盖还算好找，希望自己细心，也希望这篇文章对大家有用处。

@@ -1,22 +1,20 @@
 ---
 title: "记一次由百度云会员引起的渗透"
 date: 2019-04-03T13:18:55+08:00
-lastmod: 2019-04-03T13:18:55+08:00
 draft: false
 tags: ['php','sql','vip']
 categories: ['代码审计','渗透测试']
-comment: true
 ---
 
 百度云盘真的恶心，不开会员10k/s。
 
 <!--more-->
 
-# 前言
+## 前言
 
 前天找了点域渗透的环境和资料，都是百度云盘存储的，一个镜像十几个g，下不下来，发现网上有卖百度云VIP账号的，都是一些发卡网，刚好自己最近在学代码审计，就想着下载一套源码自己看看能不能审出漏洞。没想到还真看出来了点东西。
 
-# 开搞
+## 开搞
 
 目标站点`xx.com`扫出了`readme.txt`，是**企业版PHP自动发卡源码免授权优化版**
 
@@ -66,7 +64,9 @@ comment: true
 
 `\includes\libs\Mysql.php`
 
-MySQL使用UTF8编码![](https://y4er.com/img/uploads/20190509169572.jpg)
+MySQL使用UTF8编码
+
+![](https://y4er.com/img/uploads/20190509169572.jpg)
 
 我发现的SQL语句变量全部使用单引号进行包裹，寄希望于seay，暂放。
 
@@ -154,7 +154,7 @@ http://go.go/admin/admininfo.php?action=info&id=-1 union select 1,2,3,4,5,6,7,8,
 
 文件遍历拿到后台=>`adminInfo.php`拿到管理员账户或直接登陆=>任意文件上传拿shell
 
-# 实战
+## 实战
 
 后门进入后台，上传没有写文件权限，sql注入outfile写文件被宝塔拦截，尝试多种方法无果，放弃，毕竟账号已经有了，下东西去。
 
@@ -162,6 +162,6 @@ http://go.go/admin/admininfo.php?action=info&id=-1 union select 1,2,3,4,5,6,7,8,
 
 ps:我没想到一个卖百度云账号的流水一天也能7k
 
-# 总结
+## 总结
 
 网站是死的，思路是活的。渗透测试的精髓是指哪打哪，希望我可以做到。**另外如果有师傅知道怎么绕过宝塔写shell的请pm我，感激不尽。**有在学代码审计的同学也欢迎找我交流哦！

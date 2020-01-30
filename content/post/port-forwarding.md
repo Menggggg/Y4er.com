@@ -1,11 +1,9 @@
 ---
 title: "各种端口转发工具的使用方法"
 date: 2019-07-23T10:40:37+08:00
-lastmod: 2019-07-23T10:40:37+08:00
 draft: false
 tags: ['portforward']
 categories: ['渗透测试']
-comment: true
 ---
 
 科普转发工具的用法
@@ -24,14 +22,14 @@ server：172.16.2.8
 
 我们的目的是从我们的client就可以连接上 win2008 的远程桌面。
 
-# LCX
+## LCX
 
 lcx.exe有两大功能
 
 1. 端口转发 slave和listen成对使用
 2. 端口映射 tran
 
-## slave listen
+### slave listen
 
 server执行
 
@@ -55,7 +53,7 @@ lcx.exe -l 5555 4444
 
 client <-> 4444 attacker 5555 <->3389 server
 
-## tran
+### tran
 
 如果server中有防火墙不允许3389出站，那么可以用tran将3389映射到防火墙允许出站的端口，比如53端口。
 
@@ -71,13 +69,13 @@ lcx -t 53 172.16.2.8 3389
 
 server 3389 <-> 53 <->attacker
 
-# Earthworm
+## Earthworm
 
 EW 是一套便携式的网络穿透工具，具有 SOCKS v5 服务架设和端口转发两大核心功能。该工具能够以 “正向”、“反向”、“多级级联” 等方式打通一条网络隧道，直达网络深处，用蚯蚓独有的手段突破网络限制，给防火墙松土。工具包中提供了多种可执行文件，以适用不同的操作系统，Linux、Windows、MacOS、Arm-Linux 均被包括其内, 强烈推荐使用。官方地址：http://rootkiter.com/EarthWorm
 
 该工具共有 6 种命令格式：ssocksd、rcsocks、rssocks、lcx_slave、lcx_listen、lcx_tran
 
-## 正向socks5
+### 正向socks5
 
 attacker:
 
@@ -96,7 +94,7 @@ I am 172.16.2.8
 
 client <-> attacker 1080 <-> server
 
-## 反向socks5
+### 反向socks5
 
 attacker执行，监听8888端口转发到1080端口
 
@@ -118,7 +116,7 @@ curl http://172.16.2.8 -x socks5://172.16.1.144:1080
 
 client <-> attacker 1080 <-> attacker 8888 <-> server
 
-## 端口转发
+### 端口转发
 
 这里着重说一下`lcx_tran`、`lcx_listen`、`lcx_slave`的用法。
 
@@ -157,7 +155,7 @@ ew.exe -s lcx_slave -d 192.168.1.100 -e 8888 -f 127.0.0.1 -g 3389
 
 原理和lcx一样
 
-## 多级级联
+### 多级级联
 
 假如我们当前的网络环境如下
 
@@ -181,7 +179,7 @@ c: ew.exe -s lcx_tran -l 9999 -f 172.16.0.2 -g 3389
 
 a 1080 <-> a 8888 <-> b 9999 <-> c 9999 <-> d 3389
 
-# netsh
+## netsh
 
 > netsh(Network Shell) 是一个windows系统本身提供的功能强大的网络配置命令行工具。
 >
@@ -219,7 +217,7 @@ netsh interface portproxy delete v4tov4 listenaddress=172.16.1.144 listenport=44
 netsh firewall set opmode disabled
 ```
 
-# sSocks
+## sSocks
 
 > sSocks是一个socks代理工具套装，可用来开启socks代理服务，支持socks5验证，支持IPV6和UDP，并提供反向socks代理服务，即将远程计算机作为socks代理服务端，反弹回本地，极大方便内网的渗透测试。官方地址：http://sourceforge.net/projects/ssocks/
 
@@ -243,7 +241,7 @@ client
 curl 172.16.2.8 -x socks5://172.16.1.144:4444
 ```
 
-# portfwd
+## portfwd
 
 > portfwd是一款强大的端口转发工具，支持TCP，UDP，支持IPV4--IPV6的转换转发。
 
@@ -267,13 +265,13 @@ win2008 server:172.16.2.8
 
 ---
 
-# socat
+## socat
 
 > socat是一个多功能的网络工具，名字来由是” Socket CAT”，可以看作是netcat的N倍加强版，socat的官方网站：http://www.dest-unreach.org/socat/
 
 socat的主要特点就是在两个数据流之间建立通道，且支持众多协议和链接方式：`ip, tcp, udp, ipv6, pipe,exec,system,open,proxy,openssl,socket`等。
 
-## 端口转发
+### 端口转发
 
 ```bash
 socat TCP4-LISTEN:4444 TCP4:172.16.2.8:3389
@@ -287,7 +285,7 @@ client连接172.16.1.141:4444就是连接server的3389
 socat TCP4-LISTEN:4444,fork TCP4:172.16.2.8:3389
 ```
 
-## 端口映射
+### 端口映射
 
 在一个NAT环境，如何从外部连接到内部的一个端口呢？只要能够在内部运行socat就可以了。
 
@@ -311,7 +309,7 @@ mstsc 172.16.1.141:3389
 
 ---
 
-# ssh
+## ssh
 
 > SSH 会自动加密和解密所有 SSH 客户端与服务端之间的网络数据。但是，SSH 还同时提供了一个非常有用的功能，这就是端口转发。它能够将其他 TCP 端口的网络数据通过 SSH 链接来转发，并且自动提供了相应的加密及解密服务。
 >
@@ -337,7 +335,7 @@ mstsc 172.16.1.141:3389
 -f Fork into background after authentication. 
 后台认证用户/密码，通常和-N连用，不用登录到远程主机。
 
-## 本地端口转发
+### 本地端口转发
 
 所谓本地端口转发，就是**将发送到本地端口的请求，转发到目标端口**。这样，就可以通过访问本地端口，来访问目标端口的服务。
 
@@ -349,7 +347,7 @@ ssh -CfNg -L 4444:172.16.2.8:3389 root@172.16.1.141
 
 此时client去连接localhost:4444就是server:3389
 
-## 远程端口转发
+### 远程端口转发
 
 所谓远程端口转发，就是**将发送到远程端口的请求，转发到目标端口**。这样，就可以通过访问远程端口，来访问目标端口的服务。
 
@@ -361,7 +359,7 @@ ssh -CfNg -R 4444:172.16.1.1:3389 root@172.16.1.141
 
 此时client去连接localhost:4444就是server:3389
 
-## 本地转发与远程转发的对比
+### 本地转发与远程转发的对比
 
 首先，SSH 端口转发自然需要 SSH 连接，而 SSH 连接是有方向的，从 SSH Client 到 SSH Server 。而我们的应用也是有方向的，比如需要连接远程桌面时，远程桌面自然就是 Server 端，我们应用连接的方向也是从应用的 Client 端连接到应用的 Server 端。如果这两个连接的方向一致，那我们就说它是本地转发。而如果两个方向不一致，我们就说它是远程转发。
 
@@ -373,7 +371,7 @@ ssh -CfNg -R 4444:172.16.1.1:3389 root@172.16.1.141
 - [实战 SSH 端口转发](https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/index.html)
 - [玩转SSH端口转发](https://blog.fundebug.com/2017/04/24/ssh-port-forwarding/)
 
-## ssh架设socks代理
+### ssh架设socks代理
 
 client
 
@@ -383,7 +381,7 @@ ssh -qTfnN -D 1080 172.16.1.141
 
 client上架设socks，端口1080，数据通过attacker转发到内网。
 
-# dnscat2
+## dnscat2
 > dnscat2 是一款基于 DNS 协议的代理隧道。不仅支持端口转发，另外还有执行命令，文件传输等功能。其原理与 DNS Log 类似, 分为直连和中继两种模式, 前者直接连接服务端的 53 端口, 速度快, 但隐蔽性差, 后者通过对所设置域名的递归查询进行数据传输, 速度慢, 但隐蔽性好。
 
 创建一条端口转发
@@ -404,7 +402,7 @@ command (LAPTOP) 1>
 
 至于更多用法请参阅 [README.MD](https://github.com/iagox86/dnscat2/blob/v0.07/README.md)
 
-# HTTP/HTTPS隧道
+## HTTP/HTTPS隧道
 
 http隧道较为简单，在这里举几个有名的http隧道（或是基于http包装的tcp隧道）
 
@@ -413,20 +411,20 @@ http隧道较为简单，在这里举几个有名的http隧道（或是基于htt
 3. https://github.com/SECFORCE/Tunna
 4. https://github.com/sensepost/reDuh
 
-# 如何使用socks代理？
+## 如何使用socks代理？
 
 1. shadowsocks
 2. sockcap64 windows
 3. Proxifier
 4. proxychains
 
-# 踩过的坑
+## 踩过的坑
 
 1. win2008 远程桌面黑屏鼠标没反应可能是因为你登录的用户已经登录了。
 2. 连不上3389需要先关防火墙。
 3. socat尽量用fork，不然一次会话结束后就会断。
 
-# 写在文后
+## 写在文后
 
 文章中的很多东西网上都有，端口转发实际上只要明白原理和数据的流向，就很明了了。
 

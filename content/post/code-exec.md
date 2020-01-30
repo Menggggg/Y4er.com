@@ -1,18 +1,16 @@
 ---
 title: "代码执行/命令执行总结"
 date: 2019-04-10T19:56:16+08:00
-lastmod: 2019-04-10T19:56:16+08:00
 draft: false
 tags: ['code','exec']
 categories: ['代码审计']
-comment: true
 ---
 
 php的代码执行/命令执行函数
 
 <!--more-->
 
-# 代码执行
+## 代码执行
 ---
 ### eval
 
@@ -148,7 +146,7 @@ array_map('assert',array($_POST['c']));
 
 更多的回调函数请移步 [创造tips的秘籍——PHP回调后门](https://www.leavesongs.com/PENETRATION/php-callback-backdoor.html)
 
-# 命令执行
+## 命令执行
 ---
 ### system
 ```php
@@ -227,7 +225,7 @@ ob_end_flush();
 
 [PHP's mail()远程代码执行](http://drops.blbana.cc/2016/12/19/PHP-s-mail-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/)
 
-# bypass_disablefunc
+## bypass_disablefunc
 
 ---
 

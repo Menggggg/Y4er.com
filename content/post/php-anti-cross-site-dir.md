@@ -1,27 +1,25 @@
 ---
 title: "如何禁止PHP脚本跨站跨目录"
 date: 2019-03-29T15:53:11+08:00
-lastmod: 2019-03-29T15:53:11+08:00
 draft: false
 tags: ['php']
 categories: ['渗透测试']
-comment: true
 ---
 昨天晚上一位朋友问到这个东西，就顺手查了下资料，这是笔记。
 
 <!--more-->
 
-# 前言
+## 前言
 
 在一些渗透测试遇到的环境中，有的时候我们会发现shell所能访问的目录非常有限，可能只有当前网站的一个根路径，当我们需要从旁站拿目标站点的shell时往往被局限于此。这篇文章就是研究下php的防跨站跨目录的一个安全配置。
 
 现在网络上大部分php的环境是lamp或者lnmp，那么防止跨站跨目录的方式大致分为两类：中间件的配置、php.ini的配置。本文将对这两种方法来进行讲解。
 
-# 中间件
+## 中间件
 
 我们首先先从中间件的层面来看这个问题。
 
-## apache
+### apache
 
 阿帕奇是比较成熟的中间件，我们可以通过修改apache安装目录下的`vhost.conf`来达到防止跨站跨目录的目的。在网站配置中加入以下代码
 
@@ -35,7 +33,7 @@ php_admin_value open_basedir "/www/wwwroot/:/tmp/:/proc/"
 
 **值得注意的是如果使用这种方式，那么虚拟用户就不再自动继承`php.ini`中的`open_basedir`值了，这样会失去灵活性。**
 
-## nginx
+### nginx
 
 nginx也可以通过修改配置文件来达到防跨站跨目录的效果。
 
@@ -47,7 +45,7 @@ fastcgi_param  PHP_VALUE  "open_basedir=$document_root:/tmp/:/proc/";
 如果某个站点需要单独设置额外的目录，把上面的代码写在`include fastcgi.conf;`这行下面就OK了，会把`fastcgi.conf`中的设置覆盖掉。 
 这种方式的设置需要重启nginx后生效。
 
-# php.ini
+## php.ini
 
 实际上脱离中间件，我们完全可以通过php的配置文件来达到防跨站的效果。
 
@@ -101,6 +99,6 @@ open_basedir=/home/wwwroot/a.com:/tmp/:/proc/
 
 **特别注意，需要取消掉`.user.ini`文件的写权限，这个文件只让最高权限的管理员设置为只读。**
 
-# 后记
+## 后记
 
 通过学习apache、nginx和php的一些配置文件和属性来达到安全配置的目的，略有收获。推荐使用`.user.ini`来配置目录权限。

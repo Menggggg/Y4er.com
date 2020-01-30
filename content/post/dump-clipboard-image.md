@@ -1,11 +1,9 @@
 ---
 title: "使用powershell导出剪切板图片"
 date: 2019-07-30T08:57:16+08:00
-lastmod: 2019-07-30T08:57:16+08:00
 draft: false
 tags: ['powershell']
 categories: ['瞎折腾']
-comment: true
 ---
 
 怎么导出QQ截图的图片到指定位置呢？powershell来帮你
@@ -15,15 +13,15 @@ comment: true
 
 而我自己原来用第三方图床也就是新浪的图床，后来新浪一波防盗链把我搞得~~骂骂咧咧~~措手不及，想了想，图片还是掌握在自己手中比较好，于是就有了本文。
 
-# 借助PicGo搞插件？
+## 借助PicGo搞插件？
 
 刚好自己搭了一个图床http://static.chabug.org/ ，想着参考PicGo的思路，自己写一个插件，然后实现截图 快捷键 粘贴 一套操作，岂不是美滋滋？后来看到了PicGo需要装nodejs才能用插件，再想想nodejs的依赖和蛇皮语法，直接实力劝退，不了了之。
 
-# python自己造轮子
+## python自己造轮子
 
 国光师傅写过一篇 [Python 编写一个免费简单的图床上传工具二](https://www.sqlsec.com/2018/06/img.html) ，但是编写思路是采用`xclip`来操作`ubuntu`下的剪切板，而苦逼windows党不配这样操作。随卒。
 
-# 参考PicGo自己撸
+## 参考PicGo自己撸
 
 研究到这一步，实际上最关键的问题在于win下怎么去导出剪切板中的图片。百度谷歌了很多文章，发现都是牛头不照马尾，在此过程中我把PicGo作者的博客翻烂了，发现PicGo作者获取剪切板的图片采用的是命令行调用 https://github.com/PicGo/PicGo-Core/blob/dev/src/utils/clipboard/windows10.ps1 这个脚本。在第一行定义了最关键的项目 https://github.com/octan3/img-clipboard-dump 。这个就是我们想要的东西！
 
@@ -80,7 +78,7 @@ $str =  "![{0}](/img/uploads/{1}.png)" -f $filename,$filename
 ```
 
 然后把`dump-clipboard-png.cmd`改名为`png.cmd`和`png.ps1`放到环境变量里，截图，cmd运行`png`，那么你的剪切板就会写入一个markdown格式的图片咯。并且图片保存在了你的本地。
-# 进一步操作
+## 进一步操作
 到现在我们基本的效果已经实现了，不过还是差一点，怎么去实现按下快捷键就导出图片到我们指定的位置呢？参考国光师傅的代码已经写的很清楚了。
 
 https://github.com/sqlsec/imageMD/blob/master/imageMD.py

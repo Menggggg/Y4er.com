@@ -1,22 +1,20 @@
 ---
 title: "Nginx Lua Backdoor"
 date: 2019-09-01T17:35:59+08:00
-lastmod: 2019-09-01T17:35:59+08:00
 draft: false
 tags: ['backdoor']
 categories: ['渗透测试']
-comment: true
 ---
 在先知看到了apache利用lua留后门，就想着用nginx也试试
 <!--more-->
 
-# 要求
+## 要求
 
 安装有ngx_lua模块，在openresty和tengine中是默认安装了ngx_lua模块的。
 
 我这里拿openresty举例，你可以在这里[下载win平台](https://openresty.org/download/openresty-1.15.8.1-win64.zip)打包好的。
 
-# 步骤
+## 步骤
 
 找到conf/nginx.conf，在server块中添加路由
 
@@ -50,7 +48,7 @@ nginx -s reload
 
 ![20190901174819](https://y4er.com/img/uploads/20190901174819.png)
 
-# 文后
+## 文后
 
 在实际的环境中，conf文件并不固定，你需要针对不同站点的配置文件去修改。
 

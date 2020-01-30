@@ -1,11 +1,9 @@
 ---
 title: "搜书大师去启动屏广告小记"
 date: 2019-07-02T14:56:03+08:00
-lastmod: 2019-07-02T14:56:03+08:00
 draft: false
 tags: ['app','reverse']
 categories: ['逆向']
-comment: true
 ---
 
 前几天手机上用的很舒服的搜书大师，被自动更新了...
@@ -16,7 +14,7 @@ comment: true
 
 启动电脑吧！去广告的apk链接在文后。
 
-# 反编译
+## 反编译
 
 AndroidKiller反编译拿到smali源代码。
 
@@ -34,7 +32,7 @@ AndroidKiller反编译拿到smali源代码。
 
 smali的代码像屎一样，我们用dex2jar来转换成java代码看。
 
-# java源码
+## java源码
 
 将apk改名为zip，然后用压缩软件打开后把classes.dex拖出来放到dex2jar的文件夹下。
 
@@ -46,7 +44,7 @@ smali的代码像屎一样，我们用dex2jar来转换成java代码看。
 
 ![](https://y4er.com/img/uploads/20190702150917.png)
 
-# 去广告思路
+## 去广告思路
 
 先来谈谈我是怎么定位到调用广告的代码片段的：在启动屏中有关键字`跳过`，全局搜索就能定位到片段。
 
@@ -93,11 +91,11 @@ protected void onCreate(Bundle paramBundle)
 
 我在这直接说下我的几种方法
 
-## finish()
+### finish()
 
 让广告的Activity直接退出，但是这样有bug，会导致启动的时候需要点两次才能正常启动。
 
-## 替换他的广告id
+### 替换他的广告id
 
 经过我多次编译测试
 
@@ -109,7 +107,7 @@ a(this, this.b, this.c, "1106419620", "8090057339034822", this, 0);
 
 这种方法没有bug，完美。
 
-## 更改广告的加载时间
+### 更改广告的加载时间
 
 在`onADTick()`方法中，广告时间是由下面的代码控制的，稍加修改就行了。
 
@@ -129,7 +127,7 @@ public void onADTick(long paramLong)
 
 那么我们可以将被除数1000.0F改大一点，让他`Math.round()`之后为0就可以了。
 
-# 更改smali
+## 更改smali
 
 我用的是第二种方法，更改掉他的广告id和key
 
@@ -151,7 +149,7 @@ const-string v5, "0"
 
 保存
 
-# 重新编译
+## 重新编译
 
 之前用AndroidKiller反编译之后重新编译为apk是一直报错
 
@@ -191,7 +189,7 @@ C:\Users\Y4er\Downloads>
 
 然后你会在`com.flyersoft.seekbooks\dist`目录下找到你编译好的apk
 
-# 签名
+## 签名
 
 生成签名
 
@@ -211,7 +209,7 @@ jarsigner -verbose -keystore bookapk.keystore -signedjar book1.apk book.apk book
 
 链接: https://pan.baidu.com/s/1_j1WNl0nglJ2uY9LU833BA 提取码: 6dvi 
 
-# 写在文后
+## 写在文后
 
 这篇文章也算是自己对安卓逆向的一篇水文把，主要还是记录一下命令和思路。不过顺手挖了一个短信轰炸，一百多条短信给我炸的懵逼...
 

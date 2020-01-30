@@ -1,29 +1,27 @@
 ---
 title: "Python模块学习之Logging日志模块"
 date: 2019-01-13T12:17:40+08:00
-lastmod: 2019-01-13T12:17:40+08:00
 tags: ['python','logging']
 categories: ['代码片段']
-comment: true
 ---
 
 最近一直想自己的批量框架，参考了POC-T框架和sqlmap的框架结构，发现logging模块被大量用来处理控制台输出以及日志记录，鉴于我自己也要写框架，那么本文就记录下我的logging模块学习记录。
 
 <!--more-->
 
-# 为什么需要logging
+## 为什么需要logging
 
 在开发过程中，如果程序出现了问题，我们可以使用编辑器的Debug模式来检查bug，但是在发布之后，我们的程序相当于在一个黑盒状态去运行，我们只能看到运行效果，可是程序难免出错，这种情况的话我们就需要日志模块来记录程序当前状态、时间状态、错误状态、标准输出等，这样不论是正常运行还是出现报错，都有记录，我们可以针对性的快速排查问题。
 
 因此，日志记录对于程序的运行状态以及debug都起到了很高效的作用。如果一个程序没有标准的日志记录，就不能算作一个合格的开发者。
 
-# logging和print的对比
+## logging和print的对比
 
 - logging对输出进行了分级，print没有
 - logging具有更灵活的格式化功能，比如运行时间、模块信息
 - print输出都在控制台上，logging可以输出到任何位置，比如文件甚至是远程服务器
 
-# logging的结构拆分
+## logging的结构拆分
 
 |      模块      |                             用途                             |
 | :------------: | :----------------------------------------------------------: |
@@ -34,7 +32,7 @@ comment: true
 |     Filter     |                          日志过滤器                          |
 | Parent Handler |                   Handler之间存在分层关系                    |
 
-# 简单的实例
+## 简单的实例
 
 ```python
 import logging
@@ -69,7 +67,7 @@ logger.error("this is error msg")
 
 知道整个流程之后我们来看一些细的东西。
 
-## Level
+### Level
 
 `logging`模块中自带了几个日志级别
 
@@ -102,7 +100,7 @@ logger.setLevel(logging.DEBUG)
 
 只会输出比INFO级别高的日志。
 
-## Handler
+### Handler
 
 logging提供的Handler有很多，我简单列举几种
 
@@ -114,7 +112,7 @@ logging提供的Handler有很多，我简单列举几种
 | SysLogHandler | logging.handlers.SysLogHandler | 日志输出到syslog                                     |
 |  HTTPHandler  |  logging.handlers.HTTPHandler  | 通过”GET”或者”POST”远程输出到HTTP服务器              |
 
-## Formatter
+### Formatter
 
 fmt参数和datefmt两个参数分别对应日志记录的格式化和时间的格式化。
 
@@ -135,7 +133,7 @@ fmt可用的占位符简单列举几种，更多请参考[这里](https://docs.p
 |   %(module)s    |                打印模块名称。                 |
 |   %(message)s   |                打印日志信息。                 |
 
-# 捕获Traceback
+## 捕获Traceback
 
 ```python
 try:
@@ -160,7 +158,7 @@ ZeroDivisionError: division by zero
 
 这样会更合理的捕获异常信息。
 
-# 自定义日志级别
+## 自定义日志级别
 
 ```python
 import logging
@@ -196,7 +194,7 @@ logger.log(SUCCESS, "SUCCESS")
 
 先定义级别和数值，然后调用`addLevelName(级别名,'输出名')`。记得**数值不能小于等于0**，注意输出日志的级别。
 
-# 给输出加上颜色
+## 给输出加上颜色
 
 用到了一个第三方的脚本`ansistrm.py`，下载地址https://gist.github.com/Y4er/6300ccff3a6628ea7bda24e514013476 原作者脚本不支持win10，我修复了一下。
 
@@ -276,7 +274,7 @@ LOGGER.success("success msg")
 
 ![](https://y4er.com/img/uploads/20190509162726.jpg)
 
-# 写在文后
+## 写在文后
 
 是时候抛弃`print`了！
 

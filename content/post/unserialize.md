@@ -1,18 +1,16 @@
 ---
 title: "PHP反序列化学习"
 date: 2019-08-17T13:52:31+08:00
-lastmod: 2019-08-17T13:52:31+08:00
 draft: false
 tags: ['unserialize','PHP']
 categories: ['代码审计']
-comment: true
 ---
 
 记录下PHP反序列化漏洞学习笔记。
 
 <!--more-->
 
-# 简介
+## 简介
 
 php序列化 化对象为压缩格式化的字符串
 
@@ -20,7 +18,7 @@ php序列化 化对象为压缩格式化的字符串
 
 php序列化是为了将对象或者变量永久存储的一种方案。
 
-# 序列化
+## 序列化
 
 在了解反序列化之前我们首先要知道什么是序列化。
 
@@ -89,7 +87,7 @@ string(99) "O:4:"User":4:{s:4:"name";N;s:9:"Usersex";s:4:"male";s:8:"*money";i:1
 1. %00User%00sex 表示 private
 2. %00*%00money 表示protected
 
-# 反序列化
+## 反序列化
 
 反序列化是将字符串转换为原来的变量或对象，简单写一个例子。
 
@@ -120,7 +118,7 @@ unserialize($_GET['id']);
 
 那么`__wakeup`是什么函数呢？为什么他会自己运行呢？有没有其他类似的函数呢？
 
-# 魔术方法
+## 魔术方法
 
 在php中，有着一系列的魔术方法，他们和C#中的构造方法相似，都是在某一条件满足下自动运行，一般用于初始化对象。我们在这里列举一些
 
@@ -141,7 +139,7 @@ __sleep() //使用serialize时触发
 
 我们在上文中用到了`__wakeup`函数，在使用`unserialize()`时自动输出了`$this->name`。在了解完魔术方法之后，我们来看几道题。
 
-# D0g3 热身反序列化
+## D0g3 热身反序列化
 
 题目如下，我稍微修改了一下。
 
@@ -166,7 +164,7 @@ echo serialize("D0g3!!!");
 
 然后访问`http://php.local/unserialize.php?str=s:7:"D0g3!!!";`拿到flag。
 
-# __wakeup反序列化对象注入
+## __wakeup反序列化对象注入
 
 题目代码
 
@@ -239,7 +237,7 @@ echo serialize($i);
 
 `http://php.local/index.php?file=Tzo1OiJTb0Z1biI6Mjp7czo3OiIAKgBmaWxlIjtzOjg6ImZsYWcucGhwIjt9`
 
-# 参考链接
+## 参考链接
 
 - [反序列化审计](https://github.com/aleenzz/php_bug_wiki/blob/master/1.9.反序列化审计.md)
 - https://xz.aliyun.com/t/3674

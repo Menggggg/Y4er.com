@@ -1,11 +1,9 @@
 ---
 title: "metinfo 6.2.0正则匹配不严谨导致注入+getshell组合拳"
 date: 2019-09-27T21:46:37+08:00
-lastmod: 2019-09-27T21:46:37+08:00
 draft: false
 tags: ['code']
 categories: ['代码审计']
-comment: true
 ---
 
 组合拳攻击metinfo
@@ -14,7 +12,7 @@ comment: true
 
 今天公司做技术分享，分享了项目中的一个攻击metinfo的案例，很有意思的攻击链，记录下。
 
-# svn泄露
+## svn泄露
 
 svn是一个开放源代码的版本控制系统，如果在网站中存在`.svn`目录，那么我们可以拿到网站的源代码，方便审计。关于svn泄露需要注意的是SVN 版本 >1.7 时，Seay的工具不能dump源码了。可以用@admintony师傅的脚本来利用 https://github.com/admintony/svnExploit/
 
@@ -36,7 +34,7 @@ config/config.inc.php:109
 
 有什么用呢？大部分的cms都会有全局参数过滤，而metinfo的全局过滤简直变态，我们很难直接从request中找到可用的sql注入，**而加了密之后的参数一半不会再进行过滤了**，我们可以找下可控的加密参数。
 
-# 正则匹配导致的注入
+## 正则匹配导致的注入
 
 全局搜索`$auth->decode`寻找可控的参数，并且不走过滤的。
 
@@ -147,7 +145,7 @@ print_r(urlencode(authcode($_GET['p'],'ENCODE','cqQWPRhV91To7PmrI5Dd3FGIxjMQpLmt
 
 延时成功，你也可以构造布尔盲注，到此为止就是注入的部分，但是我们的目标是拿权限，一个注入就满足了？
 
-# 组合拳
+## 组合拳
 
 app/system/include/class/web.class.php:467 省略部分代码
 
@@ -289,7 +287,7 @@ public function upload($form = '') {
 
 首先是正常foreach取出上传文件的信息，然后判断是否能正常上传-文件大小是否正确-文件后缀是否为合法后缀，如果有错就return。到这里有两种思路。
 
-## 超出文件大小getshell
+### 超出文件大小getshell
 
 ![20190927234118](https://y4er.com/img/uploads/20190927234118.png)
 
@@ -327,7 +325,7 @@ testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
 
 ![20190927235402](https://y4er.com/img/uploads/20190927235402.png)
 
-## 无后缀getshell
+### 无后缀getshell
 
 @mochazz师傅在先知上分享了一篇metinfo6.1.3的getshell，我自己测试在6.2.0中已经修复，不过还是提一下。
 
@@ -391,7 +389,7 @@ protected function getext($filename) {
 }
 ```
 
-# 总结
+## 总结
 
 1. svn泄露分版本
 2. 注册是邮件的正则匹配问题

@@ -1,18 +1,16 @@
 ---
 title: "Weiphp5 未授权访问"
 date: 2019-12-10T20:50:24+08:00
-lastmod: 2019-12-10T20:50:24+08:00
 draft: true
 tags: ['代码审计']
 categories: ['代码审计']
-comment: true
 ---
 
 偶然挖到的
 
 <!--more-->
 
-# payload
+## payload
 
 当get请求 http://php.local/public/index.php/weixin/message/sendall_lists
 
@@ -30,7 +28,7 @@ comment: true
 
 随意提交POST数据导致未授权访问，分析一下。
 
-# 分析
+## 分析
 
 以 http://php.local/public/index.php/weixin/message/sendall_lists 为例子
 
@@ -302,11 +300,11 @@ public function initialize()
 
 通过UID严格校验了管理员的权限问题，导致admin模块下的统统不能未授权。
 
-# 影响范围
+## 影响范围
 
 2019/12/10 weiphp5.0官网最新版
 
-# 未授权页面
+## 未授权页面
 
 所有继承webbase类的页面，几乎所有模块通杀。
 

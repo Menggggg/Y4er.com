@@ -1,0 +1,155 @@
+logoText = "Y4er"
+logoType = "short" # long, short
+description = "Y4er的博客,伪程序员,信安爱好者,专注于网络攻防和信息安全."
+custom_css = []
+custom_js = []
+useFaviconGenerator = true # https://www.favicon-generator.org/
+
+themeOptions = ["dark", "light", "hacker", "solarized", "kimbie"]
+notAllowedTypesInHome = ["contact", "talks", "about", "showcase"]
+notAllowedTypesInHomeSidebar = ["about", "archive", "showcase","pt","gallery","talks"]
+notAllowedTypesInArchive = ["about", "talks", "showcase"]
+
+# header
+homeHeaderType = "text" # text, img, slide
+
+# body
+enableBreadcrumb = true
+enablePhotoSwipe = true
+enableSearch = true
+enableSearchHighlight = true
+enableGoToTop = true
+enableWhoami = false
+summaryShape = "card" # card, classic, compact
+archiveGroupByDate = "2006" # "2006-01": group by month, "2006": group by year
+archivePaginate = 13
+paginateWindow = 1
+talksPaginate = 5
+talksGroupByDate = "2006"
+
+# whoami
+myname = "Y4er"
+email = "chuyusec@gmail.com"
+whoami = "安全从业者😀伪程序员🐷"
+bioImageUrl = "/avatar.jpg"
+useGravatar = false
+location = "ChengDu, China"
+organization = "ChaBug"
+link = "https://Y4er.com/"
+
+# sidebar
+enableBio = true
+enableSidebar = true
+enableSidebarTags = true
+enableSidebarSeries = true
+enableSidebarCategories = true
+enableHomeSidebarTitles = true
+enableListSidebarTitles = true
+enableToc = true
+hideToc = false
+tocPosition = "inner" # inner, outer
+enableTocSwitch = true
+itemsPerCategory = 5
+sidebarPosition = "right"
+
+# footer
+showPoweredBy = false
+showFeedLinks = true
+showSocialLinks = true
+enableLangChange = false
+enableThemeChange = true
+
+# service
+baiduAnalytics = "150ef5faf0461b9f83612d60d72b86b1"
+enableBusuanzi = false
+busuanziSiteUV = true
+busuanziSitePV = true
+busuanziPagePV = true
+
+# comment
+enableComment = true
+disqus_shortname = ""
+commento = false
+
+[gitment]          # Gitment is a comment system based on GitHub issues. see https://github.com/imsun/gitment
+  owner = ""              # Your GitHub ID
+  repo = ""               # The repo to store comments
+  clientId = ""           # Your client ID
+  clientSecret = ""       # Your client secret
+
+[utterances]       # https://utteranc.es/
+  owner = "Y4er"              # Your GitHub ID
+  repo = "Y4er.com"               # The repo to store comments
+
+[gitalk]           # Gitalk is a comment system based on GitHub issues. see https://github.com/gitalk/gitalk
+  owner = ""              # Your GitHub ID
+  repo = ""               # The repo to store comments
+  clientId = ""           # Your client ID
+  clientSecret = ""       # Your client secret
+
+# Valine.
+# You can get your appid and appkey from https://leancloud.cn
+# more info please open https://valine.js.org
+[valine]
+  enable = false
+  appId = '你的appId'
+  appKey = '你的appKey'
+  notify = false  # mail notifier , https://github.com/xCss/Valine/wiki
+  verify = false # Verification code
+  avatar = 'mm' 
+  placeholder = '说点什么吧...'
+  visitor = false
+
+[changyan]
+  changyanAppid = ""        # Changyan app id             # 畅言
+  changyanAppkey = ""       # Changyan app key
+
+[livere]
+  livereUID = ""            # LiveRe UID                  # 来必力
+
+# Isso: https://posativ.org/isso/
+[isso]
+  enable = false
+  scriptSrc = "" # "https://isso.example.com/js/embed.min.js"
+  dataAttrs = "" # "data-isso='https://isso.example.com' data-isso-require-author='true'"
+
+[socialOptions]
+  email = "mailto:chuyusec@gmail.com"
+  phone = ""
+  facebook = ""
+  twitter = "https://twitter.com/Y4er_ChaBug"
+  github = "https://github.com/Y4er"
+  stack-overflow = ""
+  instagram = ""
+  google-plus = ""
+  youtube = ""
+  medium = ""
+  tumblr = ""
+  linkedin = ""
+  pinterest = ""
+  stack-exchange = ""
+  telegram = ""
+  steam = ""
+  weibo = ""
+  douban = ""
+  csdn = ""
+  gitlab = "https://gitlab.com/Y4er"
+  mastodon = ""
+  jianshu = ""
+  zhihu = ""
+  signal = ""
+  whatsapp = ""
+
+[donationOptions]
+  enable = true
+  alipay = "img/reward/alipay.png" 
+  wechat = "img/reward/wechat.png"
+  paypal = ""
+  patreon = ""
+
+# possible share name: ["facebook","twitter", "reddit", "linkedin", "tumblr", "weibo", "douban", "line"]
+#[[share]]
+#  name = "facebook"
+#  username = ""
+#[[share]]
+#  name = "twitter"
