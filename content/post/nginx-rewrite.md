@@ -3,7 +3,7 @@ title: "Nginx URL Rewrite"
 date: 2019-07-07T18:27:56+08:00
 draft: false
 tags: ['nginx']
-categories: ['中间件']
+categories: ['瞎折腾']
 ---
 总结下nginx的重写规则用法。
 <!--more-->

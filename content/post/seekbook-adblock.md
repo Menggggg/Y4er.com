@@ -3,7 +3,7 @@ title: "搜书大师去启动屏广告小记"
 date: 2019-07-02T14:56:03+08:00
 draft: false
 tags: ['app','reverse']
-categories: ['逆向']
+categories: ['APP相关']
 ---
 
 前几天手机上用的很舒服的搜书大师，被自动更新了...

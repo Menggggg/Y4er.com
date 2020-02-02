@@ -49,7 +49,7 @@ enableToc = true
 hideToc = false
 tocPosition = "outer" # inner, outer
 enableTocSwitch = true
-itemsPerCategory = 5
+itemsPerCategory = 8
 sidebarPosition = "right"
 
 # footer
