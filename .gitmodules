@@ -1,6 +1,6 @@
 [submodule "themes/easybook"]
 	path = themes/easybook
-	url = https://github.com/Y4er/hugo-theme-easybook
+	url = https://github.com/Y4er/hugo-theme-easybook.git
 [submodule "themes/zzo"]
 	path = themes/zzo
 	url = https://github.com/zzossig/hugo-theme-zzo.git
