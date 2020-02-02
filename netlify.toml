@@ -1,11 +1,15 @@
 [build]
 publish = "public"
-command = "hugo --gc --minify"
+command = "$pip install requests && $python ./build/img.py $domain && hugo --gc --minify"
 
 [context.production.environment]
 HUGO_VERSION = "0.63.2"
 HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
+
+domain = "https://y4er.com/"
+pip = "/opt/buildhome/python3.5/bin/pip3"
+python = "/opt/buildhome/python3.5/bin/python3"
 
 [context.split1]
 command = "hugo --gc --minify --enableGitInfo"
