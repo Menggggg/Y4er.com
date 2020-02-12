@@ -29,8 +29,8 @@ googleAnalytics = "UA-131218098-1"
     lineNumbersInTable = true
     noClasses = false
   [markup.tableOfContents]
-    startLevel = 1
-    endLevel = 4
+    startLevel = 2
+    endLevel = 6
     ordered = false
 
 [outputs]

