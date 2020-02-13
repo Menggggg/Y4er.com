@@ -8,7 +8,8 @@ hasCJKLanguage = true
 summaryLength = 70
 buildFuture = true
 
-copyright = "&copy;{year}, All Rights Reserved"
+copyright = "&copy;{year}, All Rights Reserved.<br>Power by <a href='https://console.upyun.com/register/?invite=B17HL4zXI' target='_blank'><img src='/upyun.png' style='width: 75px;'></a>"
+
 timeout = 10000
 enableEmoji = true
 paginate = 10
