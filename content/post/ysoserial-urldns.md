@@ -99,7 +99,7 @@ public synchronized int hashCode() {
 ```
 当hashCode字段等于-1时会进行handler.hashCode(this)计算，handler是定义的URLStreamHandler字段，那么进入java.net.URLStreamHandler#hashCode()
 
-![image](https://user-images.githubusercontent.com/40487319/74216409-51157480-4cdf-11ea-8758-c3802489119d.png)
+![image](https://y4er.com/img/uploads/20200216016235.png)
 
 u是我们传入的URL，getHostAddress会进行dns查询。整个链比较简单：
 1. HashMap->readObject()
@@ -144,7 +144,7 @@ public class URLDNS implements Serializable {
 
 }
 ```
-![image](https://user-images.githubusercontent.com/40487319/74216530-b49fa200-4cdf-11ea-89e7-a1ad73e6b588.png)
+![image](https://y4er.com/img/uploads/20200216015833.png)
 
 
 **文笔垃圾，措辞轻浮，内容浅显，操作生疏。不足之处欢迎大师傅们指点和纠正，感激不尽。**

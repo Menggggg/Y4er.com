@@ -30,7 +30,7 @@ public class HelloWorld {
 }
 ```
 生成class字节后，利用Java自带的反编译工具看一下。
-![image](https://user-images.githubusercontent.com/40487319/74436176-f1ff5d80-4ea0-11ea-85a3-ca3506a6e6ea.png)
+![image](https://y4er.com/img/uploads/20200216016230.png)
 
 我们用java代码读取下class的字节码
 ```java
@@ -117,7 +117,7 @@ public class HelloWorld {
 ```
 比如我想要上面这个类，可以在编译后通过hexdump或者java来读取字节码，我仍然使用最上面的java来读取类字节码。
 
-![image](https://user-images.githubusercontent.com/40487319/74453078-e02bb380-4ebc-11ea-84f6-079b52109eb8.png)
+![image](https://y4er.com/img/uploads/20200216011190.png)
 
 
 然后重写ClassLoader的findClass方法，通过反射来调用自己的test()方法。
@@ -158,7 +158,7 @@ public class MyClassLoader extends ClassLoader {
 ```
 删掉classpath中的HelloWorld.class字节码，然后运行。
 
-![image](https://user-images.githubusercontent.com/40487319/74453402-529c9380-4ebd-11ea-9603-980d3da0c9ae.png)
+![image](https://y4er.com/img/uploads/20200216019433.png)
 
 成功调用字节码定义的test()方法。
 
@@ -230,9 +230,9 @@ public class RMIClient {
 ```
 在RMIServer代码中的Server其实包含了Registry和Server两部分，分别运行Server和Client看下。
 
-![image](https://user-images.githubusercontent.com/40487319/74502121-709ede00-4f27-11ea-8525-e5c68fec3146.png)
+![image](https://y4er.com/img/uploads/20200216017254.png)
 
-![image](https://user-images.githubusercontent.com/40487319/74502132-7d233680-4f27-11ea-9342-ebdd3718d9c9.png)
+![image](https://y4er.com/img/uploads/20200216019096.png)
 
 由此可见Client远程调用了Server的hello()方法，输出了helloworld。我们回过头来看下Server的结构
 1. 定义一个IRemoteHelloWorld接口继承Remote
@@ -264,11 +264,11 @@ org.mozilla.classfile.DefiningClassLoader#defineClass
 这几个的defineClass()没有做检查，可以直接定义类。weblogic_cmd用的是最后一个。
 
 然后我们再来看应该实现哪个RMI接口，可以直接在Remote类按快捷键寻找，378个......
-![image](https://user-images.githubusercontent.com/40487319/74504954-d6439800-4f30-11ea-8bc2-9f3660988681.png)
+![image](https://y4er.com/img/uploads/20200216011485.png)
 
 注意我们要找的是interface，并且我们要返回命令执行的结果，所以方法的返回类型应该为String，并且方法必须抛出 java.rmi.RemoteException 异常。
 
-![image](https://user-images.githubusercontent.com/40487319/74505159-5d910b80-4f31-11ea-92b3-cfdfb0c8aa9e.png)
+![image](https://y4er.com/img/uploads/20200216010614.png)
 
 随便找了几个
 ```
@@ -457,7 +457,7 @@ public class Main {
 ```
 根据weblogic_cmd的代码整理为一个文件，其中T3部分仍使用weblogic_cmd的代码，效果如下：
 
-![image](https://user-images.githubusercontent.com/40487319/74508415-f75cb680-4f39-11ea-8a3d-34a6e14dc8fc.png)
+![image](https://y4er.com/img/uploads/20200216011826.png)
 
 ## 总结
 weblogic是一个体型庞大的中间件，而common-collection反序列化能做的东西太多了，灵活运用反射来调用weblogic的各种内置类，可以达到你想要的任何目的。在写这篇文章的时候，很多东西都是我之前没有接触过的，理解起来很难，一点一点的学习、吃透这个东西，还是很有成就感的。学习是一个很愉快的过程，但进步不是，共勉吧。

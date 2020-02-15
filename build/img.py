@@ -2,19 +2,19 @@
 # -*- coding: utf-8 -*-
 import requests
 import re
-import os,sys
+import os,sys,platform
 from datetime import datetime
 
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36'
 }
-'''
+
 proxies = {
     'http': 'socks5://127.0.0.1:1080',
     'https': 'socks5://127.0.0.1:1080',
 }
-'''
+
 def now():
     return str(datetime.now().strftime("%Y%m%d%H") + str(datetime.now().microsecond)[-4:])
 
@@ -38,8 +38,11 @@ if __name__ == '__main__':
                     imgs = re.findall(githubusercontent, content)
                     for markdown, img in imgs:
                         # 保存图片
-                        # imgcontent = requests.get(img, headers=headers, proxies=proxies).content
-                        imgcontent = requests.get(img, headers=headers).content
+                        imgcontent = None
+                        if platform.system() == "Windows":
+                            imgcontent = requests.get(img, headers=headers, proxies=proxies).content
+                        else:
+                            imgcontent = requests.get(img, headers=headers).content
                         mkdir("static/img/uploads/")
                         filename = 'img/uploads/' + now() + '.png'
                         with open('static/'+filename, 'wb+') as mark:

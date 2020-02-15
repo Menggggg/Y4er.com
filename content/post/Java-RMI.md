@@ -148,12 +148,12 @@ this is hello().
 ```
 那么Registry去哪了？通常在新建一个RMI Registry的时候，都会直接绑定一个对象在上面，也就是说我们示例代码中的Server其实包含了Registry和Server两部分。我们用一张图来解释下。
 
-![image](https://user-images.githubusercontent.com/40487319/74585266-d9648400-5015-11ea-8ae1-c6f49759936d.png)
+![image](https://y4er.com/img/uploads/20200216017286.png)
 
 ## RMI的通信模型
 上一部分我提到了Stub对象，是因为RMI底层通讯采用了Stub(运行在客户端)和Skeleton(运行在服务端)机制，真正的调用过程如图所示。
 
-![image](https://user-images.githubusercontent.com/40487319/74585252-999d9c80-5015-11ea-9f16-b87955556cbf.png)
+![image](https://y4er.com/img/uploads/20200216011185.png)
 
 Client调用远程方法时，会先创建Stub(sun.rmi.registry.RegistryImpl_Stub)对象，然后将Remote对象传递给远程引用层(java.rmi.server.RemoteRef)并创建java.rmi.server.RemoteCall(远程调用)对象，RemoteCall序列化服务名和Remote对象，RemoteRef将序列化之后的数据通过socket传输到Server的RemoteRef。
 
@@ -185,13 +185,13 @@ RMI解决方式就是类似于域名对应IP的解决方式，`rmi://host:port/n
 在RMI的通信过程中，用到了很多的序列化和反序列化，而在Java中，只要进行反序列化操作就可能有漏洞。RMI通过序列化传输Remote对象，那么我们可以构造恶意的Remote对象，当服务端反序列化传输过来的数据时，就会触发反序列化。
 
 利用的话我们可以使用ysoserial，如图
-![image](https://user-images.githubusercontent.com/40487319/74588498-104b9180-5038-11ea-82d5-6fcf32a9b8c5.png)
+![image](https://y4er.com/img/uploads/20200216016965.png)
 
 客户端在sun.rmi.registry.RegistryImpl_Stub#bind中进行了序列化，这个类是动态生成的，所以在源码中找不到这个类。
-![image](https://user-images.githubusercontent.com/40487319/74588828-b5676980-503a-11ea-8369-7677bbd61ab5.png)
+![image](https://y4er.com/img/uploads/2020021601567.png)
 
 服务端在sun.rmi.registry.RegistryImpl_Skel#dispatch 进行反序列化，同样是动态生成类。
-![image](https://user-images.githubusercontent.com/40487319/74589112-6a9b2100-503d-11ea-9c39-86e047fcf921.png)
+![image](https://y4er.com/img/uploads/20200216014183.png)
 
 ## RMI-JRMP反序列化
 JRMP接口的两种常见实现方式：
