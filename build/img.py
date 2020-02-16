@@ -25,6 +25,10 @@ def mkdir(path):
         os.makedirs(path)
 
 if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        domain = "https://y4er.com/"
+    else:
+        domain = sys.argv[1]
     print("------------------- start -------------------")
     githubusercontent = r'(!.*(https://.*github.*.png).*\))'
     postdir = './content/post/'
@@ -50,7 +54,7 @@ if __name__ == '__main__':
                             print("[!][{}] \t {} \t {}".format(post,img, filename))
                         # 替换文章markdown链接
                         markdown_str = markdown
-                        markdown = markdown.replace(img, sys.argv[1] + filename)
+                        markdown = markdown.replace(img, domain + filename)
                         content = content.replace(markdown_str, markdown)
                         with open(postdir+post, 'w', encoding='utf8') as file:
                             file.write(content)
