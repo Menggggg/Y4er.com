@@ -38,7 +38,7 @@ if __name__ == '__main__':
                 f = open(postdir+post, 'r', encoding='utf8')
                 content = f.read()
                 f.close()
-                if 'user-images.githubusercontent.com' in content:
+                if 'githubusercontent.com' in content:
                     imgs = re.findall(githubusercontent, content)
                     for markdown, img in imgs:
                         # 保存图片
