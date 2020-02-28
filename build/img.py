@@ -30,7 +30,7 @@ if __name__ == '__main__':
     else:
         domain = sys.argv[1]
     print("------------------- start -------------------")
-    githubusercontent = r'(!.*(https://.*github.*.png).*\))'
+    githubusercontent = r'(!.*(https://.*github.*.[jpg|png]).*\))'
     postdir = './content/post/'
     try:
         for post in os.listdir(postdir):
