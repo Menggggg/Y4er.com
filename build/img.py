@@ -30,7 +30,7 @@ if __name__ == '__main__':
     else:
         domain = sys.argv[1]
     print("------------------- start -------------------")
-    githubusercontent = r'(!.*(https://.*github.*.[jpg|png]).*\))'
+    githubusercontent = r'(!\[.*\]\((.*githubusercontent.*\.(gif|png|jpg)).*\))'
     postdir = './content/post/'
     try:
         for post in os.listdir(postdir):
@@ -40,7 +40,7 @@ if __name__ == '__main__':
                 f.close()
                 if 'githubusercontent.com' in content:
                     imgs = re.findall(githubusercontent, content)
-                    for markdown, img in imgs:
+                    for markdown, img, suffix in imgs:
                         # 保存图片
                         imgcontent = None
                         if platform.system() == "Windows":
@@ -48,7 +48,7 @@ if __name__ == '__main__':
                         else:
                             imgcontent = requests.get(img, headers=headers).content
                         mkdir("static/img/uploads/")
-                        filename = 'img/uploads/' + now() + '.png'
+                        filename = 'img/uploads/' + now() +'.'+ suffix
                         with open('static/'+filename, 'wb+') as mark:
                             mark.write(imgcontent)
                             print("[!][{}] \t {} \t {}".format(post,img, filename))
