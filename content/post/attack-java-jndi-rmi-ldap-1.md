@@ -191,9 +191,7 @@ Reference reference = new Reference("MyClass","MyClass",FactoryURL);
 ReferenceWrapper wrapper = new ReferenceWrapper(reference);
 ctx.bind("Foo", wrapper);
 ```
-引用由Reference类表示，Reference可以使用工厂来构造对象。当使用lookup查找对象时，Reference将使用工厂提供的工厂类加载地址来加载工厂类，工厂类将构造出需要的对象。
-
-**此处有一个坑就是JDK的版本问题，放到后面说**
+**这个地方有大坑，以后再说。**
 
 ## 小结
 本文简单介绍了JNDI，下一篇文章将会具体讲解如何攻击JNDI。
