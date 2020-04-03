@@ -1,5 +1,5 @@
 ---
-title: "攻击Java中的JNDI、RMI、JRMP(一)"
+title: "攻击Java中的JNDI、RMI、LDAP(一)"
 date: 2020-03-05T15:34:28+08:00
 draft: false
 tags:
