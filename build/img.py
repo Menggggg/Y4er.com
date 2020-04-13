@@ -43,7 +43,7 @@ if __name__ == '__main__':
                     for markdown, img, suffix in imgs:
                         # 保存图片
                         imgcontent = None
-                        if platform.system() == "Windows":
+                        if platform.system() == "Windows" and os.environ['USERNAME'] == 'Y4er':
                             imgcontent = requests.get(img, headers=headers, proxies=proxies).content
                         else:
                             imgcontent = requests.get(img, headers=headers).content

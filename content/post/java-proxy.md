@@ -16,9 +16,9 @@ categories:
 
 ## 简述代理模式
 代理是英文(Proxy)翻译过来的，在我们的实际生活中，最常见的代理模式应该是朋友圈中的微商了。在起初的时候，厂商直接对标顾客，没有微商在中间赚差价，结构就是如图。
-![image](https://user-images.githubusercontent.com/40487319/77867912-d6db8800-726b-11ea-9918-223b903cc697.png)
+![image](https://y4er.com/img/uploads/20200413098650.png)
 之后慢慢的微商汇总了优质资源，顾客没必要自己去挑厂商货比三家，只需要从微商那里买就行了。所有就有了如下的结构：
-![image](https://user-images.githubusercontent.com/40487319/77868078-6a14bd80-726c-11ea-973b-0d7ce2066d04.png)
+![image](https://y4er.com/img/uploads/20200413093796.png)
 而程序设计都是从生活中的实例出现的，所以Java中也产生了代理模式。
 
 在Java中存在几种代理模式：
@@ -99,7 +99,7 @@ public class Main {
     }
 }
 ```
-![image](https://user-images.githubusercontent.com/40487319/77869399-faed9800-7270-11ea-8391-d2b2a46112f4.png)
+![image](https://y4er.com/img/uploads/20200413091819.png)
 在微商卖出鞋子的前后，执行了`beforeSell`和`afterSell`疯狂推销，那么使用代理模式的好处就在于这，**从之前最基本的厂商对顾客，鞋子只有单一的sell能力，而使用代理模式之后，我们并没有改变鞋子的sell能力就可以对其进行功能的拓展和附加**。
 
 总结一下静态代理的优点：
@@ -184,7 +184,7 @@ public class Main {
     }
 }
 ```
-![image](https://user-images.githubusercontent.com/40487319/77871486-d7c5e700-7276-11ea-90cd-12d312b94191.png)
+![image](https://y4er.com/img/uploads/20200413098331.png)
 可以看到我并没有像静态代理那样重新实现一个代理类，而是实现了 `InvocationHandler` 接口的invoke方法实现的代理。通过`Proxy.newProxyInstance()`创建了一个代理类来执行sell方法。
 
 先不说InvocationHandler到底是什么东西，我们此时如果想要拓展一个阿迪鞋子的接口，应该怎么用动态代理实现？很简单，新建一个AdidasShoes还是实现Shoes接口
@@ -226,7 +226,7 @@ public class Main {
 }
 ```
 运行如图
-![image](https://user-images.githubusercontent.com/40487319/77872044-70109b80-7278-11ea-90c8-7acb18985886.png)
+![image](https://y4er.com/img/uploads/20200413094565.png)
 
 **动态代理的优点是很明显的，它不需要为每一个接口都创建代理类，大大减少重复工作。**
 
@@ -407,10 +407,10 @@ private static final class ProxyClassFactory
 byte[] proxyClassFile = ProxyGenerator.generateProxyClass(proxyName, interfaces, accessFlags);
 return defineClass0(loader, proxyName,proxyClassFile, 0, proxyClassFile.length);
 ```
-![image](https://user-images.githubusercontent.com/40487319/77873517-c8499c80-727c-11ea-9a65-8e4d241b8b39.png)
+![image](https://y4er.com/img/uploads/20200413094247.png)
 
 通过修改Java字节码的形式定义class，这就是动态代理自动生成的秘密。来看下动态代理的类名
-![image](https://user-images.githubusercontent.com/40487319/77873804-95ec6f00-727d-11ea-9f9b-9287f664c08e.png)
+![image](https://y4er.com/img/uploads/20200413099929.png)
 
 ## 总结
 代理模式被运用于spring框架的aop面向切面编程中，个人业务需求可以应用在日志记录、性能统计等场景中。
