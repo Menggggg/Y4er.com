@@ -47,4 +47,4 @@ Twitter：  [Y4er](https://twitter.com/Y4er_ChaBug)
 
 ---
 
-博客部署状态[![Netlify Status](https://api.netlify.com/api/v1/badges/63ca25df-b97f-42f0-b0a9-eaa4f8161b49/deploy-status)](https://app.netlify.com/sites/serene-austin-2719b7/deploys)
+博客部署状态[![Netlify Status](https://api.netlify.com/api/v1/badges/63ca25df-b97f-42f0-b0a9-eaa4f8161b49/deploy-status)](https://app.netlify.com/sites/y4er/deploys)
