@@ -45,7 +45,7 @@ public class CommonsCollections2 {
     }
 }
 ```
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/bc41003e-a6cc-c25e-afc6-064eb6617479.png)
+![image.png](https://y4er.com/img/uploads/20200419221002.png)
 
 ## 分析
 gadget chain
@@ -165,7 +165,7 @@ private void siftDownComparable(int k, E x) {
 
 两个排序使用选择排序法将入列的元素放到队列左边或右边。那么comparator从哪来？
 
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/8b2bb7e0-7cc6-6623-58ba-c5bb444c189a.png)
+![image.png](https://y4er.com/img/uploads/20200419229613.png)
 
 在PriorityQueue中定义了comparator字段
 
@@ -174,13 +174,13 @@ private final Comparator<? super E> comparator;
 ```
 
 在PriorityQueue中有这样一个其构造方法
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/63413fbf-eb15-ff1b-ecc3-7cd50027bb97.png)
+![image.png](https://y4er.com/img/uploads/20200419224465.png)
 
 所以可以通过实例化赋值。
 
 为什么要用到PriorityQueue？在之前的cc链分析文章中我们讲过cc链的核心问题是出在`org.apache.commons.collections4.functors.InvokerTransformer#transform`的反射任意方法调用。我们反序列化时必须自动触发transform()函数，而在`org.apache.commons.collections4.comparators.TransformingComparator#compare`中调用了这个函数
 
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/08abca24-411c-35bb-11ec-d6e4c3c11aa5.png)
+![image.png](https://y4er.com/img/uploads/20200419222196.png)
 
 this.transformer是Transformer类，在exp中承载的就是InvokerTransformer，而TransformingComparator也是比较器，我们可以通过PriorityQueue队列自动排序的特性触发compare()，进一步触发transform()。
 
@@ -191,7 +191,7 @@ this.transformer是Transformer类，在exp中承载的就是InvokerTransformer�
 
 到目前为止我们可以通过反序列化调用任意方法，但是不能像cc5构造的ChainedTransformer那样链式调用，继续看exp怎么构造的。
 
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/04b4d6e0-89ef-1d4d-e177-5bf114f0b1b3.png)
+![image.png](https://y4er.com/img/uploads/20200419226310.png)
 
 向队列中加入两个"1"占位然后将第一个元素修改为templates，追溯templates到createTemplatesImpl
 
@@ -249,13 +249,13 @@ public static <T> T createTemplatesImpl(final String command, Class<T> tplClass,
 > javassist是Java的一个库，可以修改字节码。参考 [javassist使用全解析](https://www.cnblogs.com/rickiyang/p/11336268.html)
 
 现在准备好了反序列化的类，上个小结中我们实现了任意方法调用。在看exp中把`iMethodName`设置为`newTransformer`
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/eb9c372c-befc-300d-dbd3-d0b05682e205.png)
+![image.png](https://y4er.com/img/uploads/20200419221618.png)
 
 然后到了`com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl#newTransformer`
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/f8343331-532a-3be3-ea95-f8b3f2f49576.png)
+![image.png](https://y4er.com/img/uploads/20200419228249.png)
 
 跟进getTransletInstance()
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/bd584d7b-e9e3-5389-6467-4ac418e6104b.png)
+![image.png](https://y4er.com/img/uploads/20200419227297.png)
 
 根据方法名就能猜出来defineTransletClasses()是通过字节码定义类，然后通过newInstance()实例化，跟进defineTransletClasses()看下
 

