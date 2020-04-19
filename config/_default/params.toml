@@ -4,14 +4,26 @@ description = "Y4er的博客,伪程序员,信安爱好者,专注于网络攻防�
 custom_css = []
 custom_js = []
 useFaviconGenerator = true # https://www.favicon-generator.org/
+meta_image = ""
+themecolor = ""
 
 themeOptions = ["dark", "light", "hacker", "solarized", "kimbie"]
-notAllowedTypesInHome = ["contact", "talks", "about", "showcase"]
-notAllowedTypesInHomeSidebar = ["about", "archive", "showcase","pt","gallery","talks"]
-notAllowedTypesInArchive = ["about", "talks", "showcase"]
+
+notAllowedTypesInHome = ["contact", "talks", "about", "showcase", "publication", "presentation", "resume"]
+notAllowedTypesInHomeSidebar = ["about", "archive", "showcase", "publication", "presentation", "resume"]
+notAllowedTypesInArchive = ["about", "talks", "showcase", "publication", "presentation", "resume"]
+notAllowedTypesInHomeFeed = ["about", "archive", "contact", "talks", "showcase", "publication", "presentation", "resume", "gallery"]
+
+viewportSize = "normal" # widest, wider, wide, normal, narrow
+enableUiAnimation = true
+hideSingleContentsWhenJSDisabled = false
 
 # header
 homeHeaderType = "text" # text, img, slide
+
+# menu
+showMobileMenuTerms = ["tags", "categories", "series"]
+
 
 # body
 enableBreadcrumb = true
@@ -21,11 +33,13 @@ enableSearchHighlight = true
 enableGoToTop = true
 enableWhoami = false
 summaryShape = "card" # card, classic, compact
-archiveGroupByDate = "2006" # "2006-01": group by month, "2006": group by year
-archivePaginate = 13
+searchResultPosition = "main" # side, main
+archiveGroupByDate = "2006-01" # "2006-01": group by month, "2006": group by year
+archivePaginate = 20
 paginateWindow = 1
 talksPaginate = 5
 talksGroupByDate = "2006"
+pubPaginate = 20
 
 # whoami
 myname = "Y4er"
@@ -39,6 +53,7 @@ link = "https://Y4er.com/"
 
 # sidebar
 enableBio = true
+enableBioImage = true
 enableSidebar = true
 enableSidebarTags = true
 enableSidebarSeries = true
@@ -47,10 +62,13 @@ enableHomeSidebarTitles = true
 enableListSidebarTitles = true
 enableToc = true
 hideToc = false
+tocFolding = true
 tocPosition = "outer" # inner, outer
 enableTocSwitch = true
-itemsPerCategory = 8
+itemsPerCategory = 5
 sidebarPosition = "right"
+tocLevels = ["h2", "h3", "h4"]
+enableSidebarPostsByOrder = false
 
 # footer
 showPoweredBy = false
@@ -60,16 +78,27 @@ enableLangChange = false
 enableThemeChange = true
 
 # service
+googleTagManager = "" # GTM-XXXXXX
 baiduAnalytics = "150ef5faf0461b9f83612d60d72b86b1"
 enableBusuanzi = false
 busuanziSiteUV = true
 busuanziSitePV = true
 busuanziPagePV = true
 
+# rss
+updatePeriod = "" # Possible values: 'hourly', 'daily', 'weekly', 'monthly', or 'yearly'.
+updateFrequency = ""
+fullContents = false
+
 # comment
 enableComment = true
 disqus_shortname = ""
 commento = false
+
+[telegram]
+  enable = false
+  siteId = ""
+  dataLimit = 5
 
 [gitment]          # Gitment is a comment system based on GitHub issues. see https://github.com/imsun/gitment
   owner = ""              # Your GitHub ID
@@ -139,6 +168,11 @@ commento = false
   zhihu = ""
   signal = ""
   whatsapp = ""
+  matrix = ""
+  xmpp = ""
+  dev-to = ""
+  gitea = ""
+  google-scholar = ""
 
 [donationOptions]
   enable = true
@@ -148,8 +182,15 @@ commento = false
   patreon = ""
 
 # possible share name: ["facebook","twitter", "reddit", "linkedin", "tumblr", "weibo", "douban", "line"]
-#[[share]]
-#  name = "facebook"
-#  username = ""
-#[[share]]
-#  name = "twitter"
+[[share]]
+  name = "facebook"
+  username = ""
+[[share]]
+  name = "twitter"
+
+[[footerLinks]]
+  name = ""
+  link = ""
+[[footerLinks]]
+  name = ""
+  link = ""
