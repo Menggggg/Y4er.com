@@ -80,7 +80,7 @@ public class CreateClass {
 ```
 
 执行完之后生成了Person.class
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/bd087a27-b715-166e-6d57-531c662738af.png)
+![image.png](https://y4er.com/img/uploads/20200424097089.png)
 
 ## 使用方法
 从上文的demo中可以看到部分使用方法，在javassist中CtClass代表的就是类class，ClassPool就是CtClass的容器，ClassPool维护了所有创建的CtClass对象，需要注意的是当CtClass数量过大会占用大量内存，需要调用CtClass.detach()释放内存。
@@ -243,7 +243,7 @@ Method printName2 = o.getClass().getMethod("printName");
 printName2.invoke(o, null);
 ```
 很轻松实现了切面
-![image.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/593424/de0e623b-7f11-77a1-0cb8-f38c2c76c5ea.png)
+![image.png](https://y4er.com/img/uploads/20200424092505.png)
 
 
 **文笔垃圾，措辞轻浮，内容浅显，操作生疏。不足之处欢迎大师傅们指点和纠正，感激不尽。**
