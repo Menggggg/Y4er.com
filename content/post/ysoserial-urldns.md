@@ -1,5 +1,5 @@
 ---
-title: "ysoserial URLDNS分析"
+title: "Ysoserial URLDNS分析"
 date: 2020-02-12T22:28:34+08:00
 draft: false
 tags:
