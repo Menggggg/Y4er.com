@@ -23,7 +23,13 @@
   weight = 4
 
 [[main]]
+  identifier = "note"
+  name = "Note"
+  url = "note"
+  weight = 5
+
+[[main]]
   identifier = "ChaBug"
   name = "ChaBug"
   url = "http://www.chabug.org/"
-  weight = 5
+  weight = 6
