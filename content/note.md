@@ -36,3 +36,7 @@ if($zip->open('/tmp/backup.zip', ZipArchive::OVERWRITE)=== TRUE){
     echo 1;
 }
 ```
+
+```
+git submodule update --init --recursive
+```
