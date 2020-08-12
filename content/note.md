@@ -14,7 +14,7 @@ Rar.exe a -r -v500m -X*.rar -X*.zip sst.rar D:\wwwroot\sq\
 
 tar -zcvf /tmp/www.tar.gz --exclude=upload --exclude *.png --exclude *.jpg --exclude *.gif --exclude *.mp* --exclude *.flv --exclude *.m4v --exclude *.pdf --exclude *.*tf --ignore-case /www/ | split -b 100M -d -a - www.tar.gz.
 
-zip -q -P password file.zip *.sql
+zip -s 100m -r -q -P password file.zip *.sql
 ```
 
 ```php
