@@ -1,7 +1,7 @@
 [build]
 publish = "public"
-command = "hugo --gc --minify"
-# command = "$pip install requests && $python ./build/img.py $domain && hugo --gc --minify"
+# command = "hugo --gc --minify"
+command = "$pip install requests && $python ./build/img.py $domain && hugo --gc --minify"
 
 [context.production.environment]
 HUGO_VERSION = "0.74.3"
